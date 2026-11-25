@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from .models import GenerateRequest,ValidateRequest,PlanRequest,Asset,BEHAVIORS,LAYERS,InspectAssetRequest
 from PIL import Image
 import base64,io
-from .planner import plan
+from .planner import plan, mock_room
 from .solver import generate,validate
 from .catalog import catalog
 
@@ -18,7 +18,9 @@ def assets():return [a.model_dump() for a in catalog()]
 def capabilities():return {'behaviors':BEHAVIORS,'layers':LAYERS,'perspective':'top-down front surfaces','tileSize':16}
 
 @app.post('/plan')
-def plan_scene(req:PlanRequest):return {'scene':plan(req).model_dump(),'mode':'mock','notice':'Offline semantic vocabulary; unknown descriptions use a hospitality fixture. Edit the scene graph for arbitrary concepts.'}
+def plan_scene(req:PlanRequest):
+    return {'scene':plan(req).model_dump(),'room':mock_room(req).model_dump(),'mode':'mock',
+            'notice':'Planned from the offline room vocabulary. You can edit category requirements in Scene planner.'}
 
 @app.post('/generate')
 def generate_layout(req:GenerateRequest):return generate(req)

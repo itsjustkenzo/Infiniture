@@ -700,6 +700,25 @@ nav button:hover {
   gap: 10px;
   border-top: 1px solid var(--line);
 }
+
+.regenerate-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 100%;
+}
+
+.regenerate-controls select {
+  font-size: 13px;
+  padding-block: 6px;
+  min-width: 0;
+}
+
+.selection-decision {
+  display: grid;
+  gap: 4px;
+  margin-bottom: 12px;
+}
 .overlay-chips {
   display: flex;
   gap: 5px;

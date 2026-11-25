@@ -204,6 +204,136 @@
       "title": "Asset",
       "type": "object"
     },
+    "Cell": {
+      "additionalProperties": false,
+      "properties": {
+        "x": {
+          "maximum": 64,
+          "minimum": 0,
+          "title": "X",
+          "type": "integer"
+        },
+        "y": {
+          "maximum": 64,
+          "minimum": 0,
+          "title": "Y",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "x",
+        "y"
+      ],
+      "title": "Cell",
+      "type": "object"
+    },
+    "ComponentRequirement": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[a-z][a-z0-9_]{0,19}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "category": {
+          "maxLength": 60,
+          "minLength": 1,
+          "title": "Category",
+          "type": "string"
+        },
+        "anyTags": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Anytags",
+          "type": "array"
+        },
+        "orientation": {
+          "default": "south",
+          "enum": [
+            "north",
+            "south",
+            "east",
+            "west"
+          ],
+          "title": "Orientation",
+          "type": "string"
+        },
+        "requiresInteraction": {
+          "default": false,
+          "title": "Requiresinteraction",
+          "type": "boolean"
+        },
+        "required": {
+          "default": true,
+          "title": "Required",
+          "type": "boolean"
+        },
+        "decoration": {
+          "default": false,
+          "title": "Decoration",
+          "type": "boolean"
+        },
+        "relations": {
+          "items": {
+            "$ref": "#/$defs/Relation"
+          },
+          "maxItems": 12,
+          "title": "Relations",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "category"
+      ],
+      "title": "ComponentRequirement",
+      "type": "object"
+    },
+    "Door": {
+      "additionalProperties": false,
+      "properties": {
+        "x": {
+          "maximum": 64,
+          "minimum": 0,
+          "title": "X",
+          "type": "integer"
+        },
+        "y": {
+          "maximum": 64,
+          "minimum": 0,
+          "title": "Y",
+          "type": "integer"
+        },
+        "side": {
+          "enum": [
+            "north",
+            "south",
+            "east",
+            "west"
+          ],
+          "title": "Side",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "approach": {
+          "$ref": "#/$defs/Point"
+        }
+      },
+      "required": [
+        "x",
+        "y",
+        "side",
+        "id",
+        "approach"
+      ],
+      "title": "Door",
+      "type": "object"
+    },
     "GenerateRequest": {
       "additionalProperties": false,
       "properties": {
@@ -280,7 +410,65 @@
           "$ref": "#/$defs/Weights"
         },
         "scene": {
-          "$ref": "#/$defs/Scene"
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Scene"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "room": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/RoomSpec"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "geometry": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/GeometryOptions"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "seeds": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/GenerationSeeds"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "retainObjects": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 720,
+              "minItems": 1,
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Retainobjects"
         },
         "assets": {
           "anyOf": [
@@ -299,10 +487,162 @@
           "title": "Assets"
         }
       },
-      "required": [
-        "scene"
-      ],
       "title": "GenerateRequest",
+      "type": "object"
+    },
+    "GenerationSeeds": {
+      "additionalProperties": false,
+      "properties": {
+        "geometry": {
+          "default": 1042,
+          "maximum": 2147483647,
+          "minimum": 0,
+          "title": "Geometry",
+          "type": "integer"
+        },
+        "selection": {
+          "default": 1042,
+          "maximum": 2147483647,
+          "minimum": 0,
+          "title": "Selection",
+          "type": "integer"
+        },
+        "placement": {
+          "default": 1042,
+          "maximum": 2147483647,
+          "minimum": 0,
+          "title": "Placement",
+          "type": "integer"
+        },
+        "decoration": {
+          "default": 1042,
+          "maximum": 2147483647,
+          "minimum": 0,
+          "title": "Decoration",
+          "type": "integer"
+        }
+      },
+      "title": "GenerationSeeds",
+      "type": "object"
+    },
+    "GeometryOptions": {
+      "additionalProperties": false,
+      "properties": {
+        "shape": {
+          "anyOf": [
+            {
+              "enum": [
+                "rectangle",
+                "square",
+                "l_shape",
+                "alcove",
+                "orthogonal"
+              ],
+              "type": "string"
+            },
+            {
+              "const": "auto",
+              "type": "string"
+            }
+          ],
+          "default": "auto",
+          "title": "Shape"
+        },
+        "variableSize": {
+          "default": false,
+          "title": "Variablesize",
+          "type": "boolean"
+        },
+        "entrances": {
+          "default": 2,
+          "maximum": 4,
+          "minimum": 1,
+          "title": "Entrances",
+          "type": "integer"
+        },
+        "partition": {
+          "default": false,
+          "title": "Partition",
+          "type": "boolean"
+        },
+        "floor": {
+          "anyOf": [
+            {
+              "enum": [
+                "wood_floor",
+                "stone_floor"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Floor"
+        }
+      },
+      "title": "GeometryOptions",
+      "type": "object"
+    },
+    "GeometryPreferences": {
+      "additionalProperties": false,
+      "properties": {
+        "shapes": {
+          "items": {
+            "enum": [
+              "rectangle",
+              "square",
+              "l_shape",
+              "alcove",
+              "orthogonal"
+            ],
+            "type": "string"
+          },
+          "maxItems": 5,
+          "minItems": 1,
+          "title": "Shapes",
+          "type": "array"
+        },
+        "minWidth": {
+          "default": 12,
+          "maximum": 64,
+          "minimum": 12,
+          "title": "Minwidth",
+          "type": "integer"
+        },
+        "maxWidth": {
+          "default": 64,
+          "maximum": 64,
+          "minimum": 12,
+          "title": "Maxwidth",
+          "type": "integer"
+        },
+        "minHeight": {
+          "default": 12,
+          "maximum": 64,
+          "minimum": 12,
+          "title": "Minheight",
+          "type": "integer"
+        },
+        "maxHeight": {
+          "default": 64,
+          "maximum": 64,
+          "minimum": 12,
+          "title": "Maxheight",
+          "type": "integer"
+        },
+        "floor": {
+          "default": "wood_floor",
+          "enum": [
+            "wood_floor",
+            "stone_floor"
+          ],
+          "title": "Floor",
+          "type": "string"
+        }
+      },
+      "title": "GeometryPreferences",
       "type": "object"
     },
     "Group": {
@@ -342,6 +682,58 @@
         "objects"
       ],
       "title": "Group",
+      "type": "object"
+    },
+    "GroupRequirement": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[a-z][a-z0-9_]{0,19}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "zoneId": {
+          "pattern": "^[a-z][a-z0-9_]{0,19}$",
+          "title": "Zoneid",
+          "type": "string"
+        },
+        "minimum": {
+          "default": 1,
+          "maximum": 5,
+          "minimum": 0,
+          "title": "Minimum",
+          "type": "integer"
+        },
+        "preferred": {
+          "default": 1,
+          "maximum": 5,
+          "minimum": 1,
+          "title": "Preferred",
+          "type": "integer"
+        },
+        "anchor": {
+          "$ref": "#/$defs/ComponentRequirement"
+        },
+        "members": {
+          "items": {
+            "$ref": "#/$defs/ComponentRequirement"
+          },
+          "maxItems": 12,
+          "title": "Members",
+          "type": "array"
+        },
+        "caretaker": {
+          "default": false,
+          "title": "Caretaker",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "zoneId",
+        "anchor"
+      ],
+      "title": "GroupRequirement",
       "type": "object"
     },
     "Layout": {
@@ -401,6 +793,35 @@
           },
           "title": "Circulation",
           "type": "array"
+        },
+        "geometry": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/RoomGeometry"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "zoneCells": {
+          "anyOf": [
+            {
+              "additionalProperties": {
+                "items": {
+                  "$ref": "#/$defs/Cell"
+                },
+                "type": "array"
+              },
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Zonecells"
         }
       },
       "required": [
@@ -692,6 +1113,152 @@
       "title": "Relation",
       "type": "object"
     },
+    "RoomGeometry": {
+      "additionalProperties": false,
+      "properties": {
+        "shape": {
+          "enum": [
+            "rectangle",
+            "square",
+            "l_shape",
+            "alcove",
+            "orthogonal"
+          ],
+          "title": "Shape",
+          "type": "string"
+        },
+        "floorStyle": {
+          "enum": [
+            "wood_floor",
+            "stone_floor"
+          ],
+          "title": "Floorstyle",
+          "type": "string"
+        },
+        "floor": {
+          "items": {
+            "$ref": "#/$defs/Cell"
+          },
+          "maxItems": 4096,
+          "minItems": 1,
+          "title": "Floor",
+          "type": "array"
+        },
+        "walls": {
+          "items": {
+            "$ref": "#/$defs/Wall"
+          },
+          "maxItems": 4096,
+          "title": "Walls",
+          "type": "array"
+        },
+        "doors": {
+          "items": {
+            "$ref": "#/$defs/Door"
+          },
+          "maxItems": 4,
+          "minItems": 1,
+          "title": "Doors",
+          "type": "array"
+        },
+        "partitions": {
+          "items": {
+            "$ref": "#/$defs/Cell"
+          },
+          "maxItems": 64,
+          "title": "Partitions",
+          "type": "array"
+        }
+      },
+      "required": [
+        "shape",
+        "floorStyle",
+        "floor",
+        "walls",
+        "doors"
+      ],
+      "title": "RoomGeometry",
+      "type": "object"
+    },
+    "RoomSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "schemaVersion": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schemaversion",
+          "type": "string"
+        },
+        "title": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        },
+        "purpose": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Purpose",
+          "type": "string"
+        },
+        "conceptSeed": {
+          "default": 0,
+          "maximum": 2147483647,
+          "minimum": 0,
+          "title": "Conceptseed",
+          "type": "integer"
+        },
+        "description": {
+          "default": "",
+          "maxLength": 4000,
+          "title": "Description",
+          "type": "string"
+        },
+        "geometry": {
+          "$ref": "#/$defs/GeometryPreferences"
+        },
+        "zones": {
+          "items": {
+            "$ref": "#/$defs/Zone"
+          },
+          "maxItems": 12,
+          "minItems": 1,
+          "title": "Zones",
+          "type": "array"
+        },
+        "groups": {
+          "items": {
+            "$ref": "#/$defs/GroupRequirement"
+          },
+          "maxItems": 20,
+          "minItems": 1,
+          "title": "Groups",
+          "type": "array"
+        },
+        "density": {
+          "default": 0.5,
+          "maximum": 1,
+          "minimum": 0.1,
+          "title": "Density",
+          "type": "number"
+        },
+        "decorationDensity": {
+          "default": 0.5,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Decorationdensity",
+          "type": "number"
+        }
+      },
+      "required": [
+        "title",
+        "purpose",
+        "zones",
+        "groups"
+      ],
+      "title": "RoomSpec",
+      "type": "object"
+    },
     "Scene": {
       "additionalProperties": false,
       "properties": {
@@ -824,6 +1391,40 @@
       "title": "Socket",
       "type": "object"
     },
+    "Wall": {
+      "additionalProperties": false,
+      "properties": {
+        "x": {
+          "maximum": 64,
+          "minimum": 0,
+          "title": "X",
+          "type": "integer"
+        },
+        "y": {
+          "maximum": 64,
+          "minimum": 0,
+          "title": "Y",
+          "type": "integer"
+        },
+        "side": {
+          "enum": [
+            "north",
+            "south",
+            "east",
+            "west"
+          ],
+          "title": "Side",
+          "type": "string"
+        }
+      },
+      "required": [
+        "x",
+        "y",
+        "side"
+      ],
+      "title": "Wall",
+      "type": "object"
+    },
     "Weights": {
       "additionalProperties": false,
       "properties": {
@@ -920,6 +1521,32 @@
         "accessible": {
           "default": true,
           "title": "Accessible",
+          "type": "boolean"
+        },
+        "required": {
+          "default": true,
+          "title": "Required",
+          "type": "boolean"
+        },
+        "nearZones": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 12,
+          "title": "Nearzones",
+          "type": "array"
+        },
+        "awayFromZones": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 12,
+          "title": "Awayfromzones",
+          "type": "array"
+        },
+        "nearEntrance": {
+          "default": false,
+          "title": "Nearentrance",
           "type": "boolean"
         }
       },

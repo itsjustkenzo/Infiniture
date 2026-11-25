@@ -30,14 +30,14 @@ npm.cmd run dev -w apps/web
 
 ## Use
 
-1. Describe a tavern, bedroom, library, kitchen, office, shop, hospital, blacksmith workshop, laboratory or spaceship. Offline mode recognizes this vocabulary and reports when it uses the fallback fixture.
-2. Set room size, density, seed and candidate count; select **Generate interior**.
-3. Inspect groups, zones, physical footprints, paths and candidate diagnostics. Scene Planner accepts custom validated graphs for unfamiliar concepts using the same engine.
+1. Describe a tavern, bedroom, library, kitchen, office, shop, warehouse, classroom, hospital, blacksmith workshop, laboratory or spaceship. The offline vocabulary uses a tavern fixture for unrecognized concepts. Edit the room specification to define another concept.
+2. Choose a room shape, preferred dimensions, entrance count and optional partition. With **Vary dimensions by seed** enabled, the geometry seed varies dimensions within the room specification's limits. Enter separate seeds for geometry, furniture selection, placement and decoration. Select **Generate interior**.
+3. Use **Regenerate** to rearrange the items already placed, reselect furniture inside the same architecture, rebuild architecture and layout, or request another offline concept variant for the same description. Inspect floor cells, walls, entrances, zones, paths and candidate diagnostics in Layout inspector. Scene planner accepts `RoomSpec` JSON and existing concrete scene graphs.
 4. Select **Play**, click the map, and use WASD/arrows. Press E near the caretaker. Zoom controls and editor overview are available.
 5. In Editor, drag a furniture member to move its entire group. Changes must pass the independent validator; invalid moves are rejected. Original generation scores are not recalculated after manual editing.
 6. Save the result, reload it from Dashboard, or export JSON. Saved results include the seed, semantic graph, configuration and versioned metadata snapshot.
 
-Uploads are stored in `runtime/uploads`. In mock mode an uploaded reference is not analyzed; the UI explicitly says so. To enable live semantic/vision planning, set `OPENROUTER_API_KEY` only in the backend environment, discover models in Settings, assign compatible model IDs and opt into live planning. No key was supplied or used during development. Live image generation remains disabled while fixed-library behavior is being established.
+Uploads are stored in `runtime/uploads`. The dynamic generator uses offline specifications and the approved asset catalog. Reference images are stored for future planning. `packages/shared/room.schema.json` is the input contract for a future OpenRouter semantic planner.
 
 ## Commands
 
@@ -62,4 +62,4 @@ Production build output: `apps/api/dist` and `apps/web/dist`. This repository do
 - [Browser test report](docs/browser-test-results.json)
 - [Reviewed screenshots](docs/screenshots)
 
-The engine uses demand-weighted rectangular zones, a reserved central circulation spine, assembled object relationships, bounded candidate search/backtracking and player-sized flood-fill validation. It is intentionally a simpler solver before introducing OR-Tools. Rectangular rooms, a single approved style and bounded group sizes are explicit current limits.
+The engine builds a connected orthogonal floor, marks wall edges, reserves routes between doors and selects functional furniture groups from the approved catalog. Zones grow over the available floor. The existing solver assembles related furniture and uses bounded candidate search and player-sized navigation to validate layouts. Older saves still use their original rectangular geometry. Dynamic rooms are single connected interiors with 1–4 door approaches and at most one partial partition. Doors mark reachable thresholds within the room.

@@ -1,5 +1,6 @@
 import math
 from .geometry import footprint,center,distance,contains,EPS
+from .architecture import Architecture
 
 LOCAL_UNARY={'against_wall','along_wall','attached_to_wall','inside_corner','centered_within_zone','separated_from_zone','maintain_clearance','connected_to_walking_path'}
 
@@ -9,13 +10,16 @@ def check_relation(r,p,target,assets,anchor=None,zone=None,room=None,zones=None)
         return True # Independently verified by navigation/clearance validator, not aesthetic inference.
     if k in ['against_wall','along_wall','attached_to_wall','inside_corner']:
         if room is None:return True
-        w,h=room; edges={'north':abs(p.y-2)<EPS,'south':abs(p.y+a.footprint.height-(h-1))<EPS,'west':abs(p.x-1)<EPS,'east':abs(p.x+a.footprint.width-(w-1))<EPS}
+        if isinstance(room, Architecture):
+            edges = {side: room.touches_wall(box, side) for side in ('north','south','west','east')}
+        else:
+            w,h=room; edges={'north':abs(p.y-2)<EPS,'south':abs(p.y+a.footprint.height-(h-1))<EPS,'west':abs(p.x-1)<EPS,'east':abs(p.x+a.footprint.width-(w-1))<EPS}
         if k=='inside_corner':return (edges['north'] or edges['south']) and (edges['east'] or edges['west'])
         return edges[r.wall]
     if k=='centered_within_zone':
         return zone is None or math.dist(c,(zone.x+zone.width/2,zone.y+zone.height/2))<=r.distance+.5
     if k=='separated_from_zone':
-        if zones is None:return True
+        if zones is None or r.target not in zones:return True
         z=zones[r.target];return distance(box,(z.x,z.y,z.width,z.height))>=r.distance-EPS
     if target is None:return False
     ta=assets[target.assetId];tb=footprint(target,ta);tc=center(target,ta);d=distance(box,tb)

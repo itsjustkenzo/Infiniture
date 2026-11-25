@@ -20,6 +20,13 @@
       "minimum": 0,
       "title": "Decorationdensity",
       "type": "number"
+    },
+    "conceptSeed": {
+      "default": 0,
+      "maximum": 2147483647,
+      "minimum": 0,
+      "title": "Conceptseed",
+      "type": "integer"
     }
   },
   "required": [

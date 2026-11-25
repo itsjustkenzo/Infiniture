@@ -1,0 +1,416 @@
+{
+  "$defs": {
+    "ComponentRequirement": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[a-z][a-z0-9_]{0,19}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "category": {
+          "maxLength": 60,
+          "minLength": 1,
+          "title": "Category",
+          "type": "string"
+        },
+        "anyTags": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Anytags",
+          "type": "array"
+        },
+        "orientation": {
+          "default": "south",
+          "enum": [
+            "north",
+            "south",
+            "east",
+            "west"
+          ],
+          "title": "Orientation",
+          "type": "string"
+        },
+        "requiresInteraction": {
+          "default": false,
+          "title": "Requiresinteraction",
+          "type": "boolean"
+        },
+        "required": {
+          "default": true,
+          "title": "Required",
+          "type": "boolean"
+        },
+        "decoration": {
+          "default": false,
+          "title": "Decoration",
+          "type": "boolean"
+        },
+        "relations": {
+          "items": {
+            "$ref": "#/$defs/Relation"
+          },
+          "maxItems": 12,
+          "title": "Relations",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "category"
+      ],
+      "title": "ComponentRequirement",
+      "type": "object"
+    },
+    "GeometryPreferences": {
+      "additionalProperties": false,
+      "properties": {
+        "shapes": {
+          "items": {
+            "enum": [
+              "rectangle",
+              "square",
+              "l_shape",
+              "alcove",
+              "orthogonal"
+            ],
+            "type": "string"
+          },
+          "maxItems": 5,
+          "minItems": 1,
+          "title": "Shapes",
+          "type": "array"
+        },
+        "minWidth": {
+          "default": 12,
+          "maximum": 64,
+          "minimum": 12,
+          "title": "Minwidth",
+          "type": "integer"
+        },
+        "maxWidth": {
+          "default": 64,
+          "maximum": 64,
+          "minimum": 12,
+          "title": "Maxwidth",
+          "type": "integer"
+        },
+        "minHeight": {
+          "default": 12,
+          "maximum": 64,
+          "minimum": 12,
+          "title": "Minheight",
+          "type": "integer"
+        },
+        "maxHeight": {
+          "default": 64,
+          "maximum": 64,
+          "minimum": 12,
+          "title": "Maxheight",
+          "type": "integer"
+        },
+        "floor": {
+          "default": "wood_floor",
+          "enum": [
+            "wood_floor",
+            "stone_floor"
+          ],
+          "title": "Floor",
+          "type": "string"
+        }
+      },
+      "title": "GeometryPreferences",
+      "type": "object"
+    },
+    "GroupRequirement": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[a-z][a-z0-9_]{0,19}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "zoneId": {
+          "pattern": "^[a-z][a-z0-9_]{0,19}$",
+          "title": "Zoneid",
+          "type": "string"
+        },
+        "minimum": {
+          "default": 1,
+          "maximum": 5,
+          "minimum": 0,
+          "title": "Minimum",
+          "type": "integer"
+        },
+        "preferred": {
+          "default": 1,
+          "maximum": 5,
+          "minimum": 1,
+          "title": "Preferred",
+          "type": "integer"
+        },
+        "anchor": {
+          "$ref": "#/$defs/ComponentRequirement"
+        },
+        "members": {
+          "items": {
+            "$ref": "#/$defs/ComponentRequirement"
+          },
+          "maxItems": 12,
+          "title": "Members",
+          "type": "array"
+        },
+        "caretaker": {
+          "default": false,
+          "title": "Caretaker",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "zoneId",
+        "anchor"
+      ],
+      "title": "GroupRequirement",
+      "type": "object"
+    },
+    "Relation": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "title": "Type",
+          "type": "string"
+        },
+        "target": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Target"
+        },
+        "distance": {
+          "default": 1,
+          "maximum": 32,
+          "minimum": 0,
+          "title": "Distance",
+          "type": "number"
+        },
+        "axis": {
+          "default": "x",
+          "enum": [
+            "x",
+            "y"
+          ],
+          "title": "Axis",
+          "type": "string"
+        },
+        "wall": {
+          "default": "north",
+          "enum": [
+            "north",
+            "south",
+            "east",
+            "west"
+          ],
+          "title": "Wall",
+          "type": "string"
+        },
+        "socket": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Socket"
+        },
+        "mandatory": {
+          "default": true,
+          "title": "Mandatory",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "title": "Relation",
+      "type": "object"
+    },
+    "Zone": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "purpose": {
+          "title": "Purpose",
+          "type": "string"
+        },
+        "minimumArea": {
+          "default": 16,
+          "maximum": 4096,
+          "minimum": 4,
+          "title": "Minimumarea",
+          "type": "integer"
+        },
+        "preferredArea": {
+          "default": 48,
+          "maximum": 4096,
+          "minimum": 4,
+          "title": "Preferredarea",
+          "type": "integer"
+        },
+        "priority": {
+          "default": 1,
+          "maximum": 100,
+          "minimum": 0,
+          "title": "Priority",
+          "type": "integer"
+        },
+        "preferredWall": {
+          "anyOf": [
+            {
+              "enum": [
+                "north",
+                "south",
+                "east",
+                "west"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Preferredwall"
+        },
+        "accessible": {
+          "default": true,
+          "title": "Accessible",
+          "type": "boolean"
+        },
+        "required": {
+          "default": true,
+          "title": "Required",
+          "type": "boolean"
+        },
+        "nearZones": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 12,
+          "title": "Nearzones",
+          "type": "array"
+        },
+        "awayFromZones": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 12,
+          "title": "Awayfromzones",
+          "type": "array"
+        },
+        "nearEntrance": {
+          "default": false,
+          "title": "Nearentrance",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "purpose"
+      ],
+      "title": "Zone",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schemaversion",
+      "type": "string"
+    },
+    "title": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Title",
+      "type": "string"
+    },
+    "purpose": {
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Purpose",
+      "type": "string"
+    },
+    "conceptSeed": {
+      "default": 0,
+      "maximum": 2147483647,
+      "minimum": 0,
+      "title": "Conceptseed",
+      "type": "integer"
+    },
+    "description": {
+      "default": "",
+      "maxLength": 4000,
+      "title": "Description",
+      "type": "string"
+    },
+    "geometry": {
+      "$ref": "#/$defs/GeometryPreferences"
+    },
+    "zones": {
+      "items": {
+        "$ref": "#/$defs/Zone"
+      },
+      "maxItems": 12,
+      "minItems": 1,
+      "title": "Zones",
+      "type": "array"
+    },
+    "groups": {
+      "items": {
+        "$ref": "#/$defs/GroupRequirement"
+      },
+      "maxItems": 20,
+      "minItems": 1,
+      "title": "Groups",
+      "type": "array"
+    },
+    "density": {
+      "default": 0.5,
+      "maximum": 1,
+      "minimum": 0.1,
+      "title": "Density",
+      "type": "number"
+    },
+    "decorationDensity": {
+      "default": 0.5,
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Decorationdensity",
+      "type": "number"
+    }
+  },
+  "required": [
+    "title",
+    "purpose",
+    "zones",
+    "groups"
+  ],
+  "title": "RoomSpec",
+  "type": "object"
+}

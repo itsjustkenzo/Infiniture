@@ -14,7 +14,16 @@ Implemented in the initially empty `Infiniture` workspace on 24 November 2026. T
 - [ ] Verify live OpenRouter text and image analysis against an actual configured account/key. No key was supplied; no paid requests were made.
 - [ ] Complete separate asset-manager, live image generation and visual-review workflows. Their role slots exist, but the workflows are not implemented. Live image generation is explicitly disabled.
 - [ ] Complete full live reference-to-generated-assets pipeline.
-- [ ] Production-quality assets and artistic polish, broader scene complexity, nonrectangular architecture, production hosting/authentication and multiuser operation.
+- [ ] Production-quality assets and artistic polish, multiroom architecture, production hosting/authentication and multiuser operation.
+
+## Dynamic interior phase
+
+- Local checkpoint `checkpoint/pre-dynamic-interiors` at `7cbe966` preserves the previous implementation.
+- Geometry is generated before furniture using seeded room dimensions, five orthogonal shape families, optional partition, and up to four boundary door approaches. Floors, wall sprites, collision and navigation use the generated footprint.
+- Category-based room specifications drive approved asset selection and group quantities. Adaptive zones use contiguous floor masks, clear routes, wall availability and zone preferences. The same group solver handles all eight requested concepts.
+- Geometry, selection, placement and decoration each have a seed. The browser offers four regeneration scopes. Arrangement-only keeps the currently placed object IDs and requires them to fit as complete groups. Saved replay pins asset versions and configuration.
+- The inspector exposes floor cells, wall segments, doors, zones, groups, selection and placement decisions, and candidate rejection reasons. The offline `RoomSpec` schema is ready for a future semantic planner.
+- Verification includes 120 generated and separately validated dynamic cases across the eight concepts, five shapes and three size/density settings. Tests also cover wider players, invalid geometry, unapproved assets, preserved arrangement selections and exact saved replay. Eight Edge browser tests cover regeneration scopes, gameplay against a partition, save and reload, and visual baselines for an L-shaped, alcove and irregular room.
 
 ## Verified results
 
@@ -39,11 +48,11 @@ Implemented in the initially empty `Infiniture` workspace on 24 November 2026. T
 ## Current limits and precise semantics
 
 - The offline planner is a clearly labeled semantic vocabulary fixture, not an LLM. Unknown descriptions use the hospitality fixture. Arbitrary concepts can be expressed through Scene Planner JSON; placement uses the same engine for every concept.
-- Rooms are rectangular with a fixed north/south door pair and three-tile central circulation spine. Zones are variable, demand-weighted rectangles on either side, expanded by preferred area. Irregular geometry, multi-room door connectivity and unconstrained circulation topology are not implemented.
+- Legacy maps have rectangular rooms and a fixed north/south door pair. New maps have connected orthogonal floors and can contain one partial partition. Doors are reachable thresholds. Inter-room travel and arbitrary partition networks are future work.
 - The supported relationship types all have computational checks, but bounded assembly is not a complete general-purpose constraint solver. It may reject a feasible complex graph when its search budget/relative search window is exhausted. Most group relations must form an acyclic dependency graph; object relationships are scoped to their group, with a special cross-zone separation relation.
 - Initial wall-dependent sprites attach to the north wall, matching their artwork. Other wall orientation art is not invented or rotated. Direction-specific chair/player sprites are provided.
 - Interactions use declared clearance and the actual player collision size. NPCs are nonblocking entities placed on reachable floor; navigation does not treat NPC bodies as permanent obstacles.
-- Geometry is axis-aligned rectangles. Navigation is player-sized cell-center flood fill plus conservative swept segment checks to interaction points. No polygonal collision or A* solver is needed for the current room model; those remain extensions.
+- Object collision uses axis-aligned rectangles. Navigation uses a player-sized cell-center flood fill and swept segment checks. On dynamic maps it can connect to off-grid interaction points with a two-leg approach.
 - Density affects semantic demand and optional furniture. It is not yet a calibrated guarantee of a requested occupied-floor percentage. The default mock scenes intentionally contain few groups.
 - Targeted repair currently removes optional group members and then reruns placement. It does not yet implement arbitrary conflict-directed rearrangement or visual-AI-guided repairs.
 - Candidate comparison shows all scores/rejections, but only the selected candidate's geometry is returned/rendered. Alternative candidate map previews are not implemented.

@@ -237,6 +237,32 @@
           "default": true,
           "title": "Accessible",
           "type": "boolean"
+        },
+        "required": {
+          "default": true,
+          "title": "Required",
+          "type": "boolean"
+        },
+        "nearZones": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 12,
+          "title": "Nearzones",
+          "type": "array"
+        },
+        "awayFromZones": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 12,
+          "title": "Awayfromzones",
+          "type": "array"
+        },
+        "nearEntrance": {
+          "default": false,
+          "title": "Nearentrance",
+          "type": "boolean"
         }
       },
       "required": [

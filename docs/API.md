@@ -4,18 +4,22 @@ Express: `http://127.0.0.1:3001/api`. Python OpenAPI and interactive contracts: 
 
 ## Core pipeline
 
-| Method and route    | Input / result                                                                                                                                                                                                                                                                                                                                  |
-| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| GET `/health`       | Engine connectivity, storage mode and credential-presence boolean; no secret values.                                                                                                                                                                                                                                                            |
-| POST `/plan`        | `{description, density?, decorationDensity?, mode?: "mock" or "live", referenceId?}`. Returns a validated semantic scene. Mock mode explicitly does not analyze uploaded images.                                                                                                                                                                |
-| POST `/generate`    | Shared `generate.schema.json`: scene plus width/height, seed, candidate count, search/time budget, player size, densities and weights. Backend uses its approved asset registry. Returns `{ok, layout?, validation?, diagnostics, scene?, assets?, layers?, stages?, reproduction?}`. Failed spatial searches return `ok:false` with no layout. |
-| POST `/validate`    | `{request: GenerateRequest, layout: Layout}`. Independent full validation, collision rectangles, player-sized walkability, paths, interactions and NPC positions.                                                                                                                                                                               |
-| GET `/capabilities` | Supported relationship names, layers and tile size.                                                                                                                                                                                                                                                                                             |
-| GET `/history`      | Recent generation diagnostics, including failed generations.                                                                                                                                                                                                                                                                                    |
+| Method and route    | Input / result                                                                                                                                                                                                                                                                                                                   |
+| ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| GET `/health`       | Engine connectivity, storage mode and credential-presence boolean; no secret values.                                                                                                                                                                                                                                             |
+| POST `/plan`        | `{description, density?, decorationDensity?, conceptSeed?, mode?: "mock", referenceId?}`. The offline response includes `room` for dynamic generation and `scene` for older clients. Uploaded references are stored.                                                                                                             |
+| POST `/generate`    | Send exactly one of `room` or `scene`, plus optional `width`, `height`, `geometry`, `seeds`, densities and search settings. The backend uses its approved asset registry. Successful results include `layout`, `validation`, `diagnostics`, `scene` and `reproduction`. Unsatisfiable requests return `ok:false` with no layout. |
+| POST `/validate`    | `{request: GenerateRequest, layout: Layout}`. Independent full validation, collision rectangles, player-sized walkability, paths, interactions and NPC positions.                                                                                                                                                                |
+| GET `/capabilities` | Supported relationship names, layers and tile size.                                                                                                                                                                                                                                                                              |
+| GET `/history`      | Recent generation diagnostics, including failed generations.                                                                                                                                                                                                                                                                     |
 
-Semantic scene groups reference a primary `anchorId`. Object relations reference members in the same group; `separated_from_zone` references a zone. The planner never supplies final coordinates. Unsupported relationships, cycles and invalid references are rejected. Use `packages/shared/scene.schema.json` for the complete contract.
+`packages/shared/room.schema.json` describes the offline planner output. A room specifies dimension ranges, shape preferences, required and optional zones, and category-based group requirements. Group quantities have minimum and preferred counts. Roles within a group can express interaction requirements and relationships to other roles. `packages/shared/scene.schema.json` describes the existing resolved scene with concrete asset IDs. In both contracts `separated_from_zone` references a zone. The engine rejects unsupported relationships, cycles and invalid references.
 
-Generation stages are available in the result (`architecture`, `zones`, `groups`, `validation`). The inspector can view architecture and zone stages without furniture, and the full graph/diagnostics are inspectable. There is no independent public zoning mutation endpoint; the engine allocates zones consistently with assembled group requirements.
+Dynamic generation uses `geometry: {shape, variableSize, entrances, partition}` and `seeds: {geometry, selection, placement, decoration}`. Shapes include `auto`, `rectangle`, `square`, `l_shape`, `alcove` and `orthogonal`. Choose 1–4 entrances. With `variableSize` enabled, the width and height inputs are preferred sizes. Generation changes the size within the specification's limits. If seeds are omitted, `seed` initializes all four streams. A concrete scene request without any dynamic options keeps the legacy rectangular pipeline.
+
+An arrangement-only request keeps the same specification, geometry options, and asset catalog. Advance the placement seed and set `retainObjects` to the placed object IDs. The engine requires the retained objects and their dependencies to fit together. To reselect furniture, omit `retainObjects` and change the selection and placement seeds. To rebuild the room, change the geometry seed. To get a different offline plan for the same description, call `/plan` with another `conceptSeed`.
+
+Dynamic results include `layout.geometry` with floor cells, wall segments, partitions and door approaches, plus `layout.zoneCells` for each allocated zone. Diagnostics include seed values, asset selection quantities and rejected placements. The inspector can view architecture and zone stages independently of furniture.
 
 ## Asset library
 
@@ -31,13 +35,13 @@ Python `/assets/inspect` accepts `{asset,pngBase64}` for decoded PNG measurement
 
 ## Persistence
 
-| Method and route           | Input / result                                                                     |
-| -------------------------- | ---------------------------------------------------------------------------------- |
-| GET / POST `/projects`     | List projects or create `{name,description?}`.                                     |
-| GET `/maps`                | Saved map summaries.                                                               |
-| GET `/maps/:id`            | Complete saved result, including reproduction inputs and asset metadata snapshots. |
-| POST `/maps`               | `{result,name?}`. Revalidates the map before writing.                              |
-| POST `/maps/:id/reproduce` | Regenerate using the saved seed, configuration, scene and pinned asset metadata.   |
+| Method and route           | Input / result                                                                            |
+| -------------------------- | ----------------------------------------------------------------------------------------- |
+| GET / POST `/projects`     | List projects or create `{name,description?}`.                                            |
+| GET `/maps`                | Saved map summaries.                                                                      |
+| GET `/maps/:id`            | Complete saved result, including reproduction inputs and asset metadata snapshots.        |
+| POST `/maps`               | `{result,name?}`. Revalidates the map before writing.                                     |
+| POST `/maps/:id/reproduce` | Regenerate with the saved seeds, configuration, room or scene, and pinned asset metadata. |
 
 Local JSON collections and MongoDB both retain up to 200 records in list responses. Local fallback retains the latest 200 records per collection and serializes atomic file writes. Sprite binaries live in `runtime/uploads`; MongoDB stores file references. There is no delete route in this prototype.
 
@@ -52,7 +56,7 @@ Local JSON collections and MongoDB both retain up to 200 records in list respons
 
 The adapter uses backend-only `OPENROUTER_API_KEY`. It requests JSON, validates locally against shared schemas, uses an in-memory one-hour/100-entry cache, retries at most three attempts, sets a 45-second request timeout, and optionally uses `OPENROUTER_FALLBACK_MODEL` on the final attempt. Provider errors are sanitized. Cost is `null` when not returned; no estimated cost is invented. Invalid output still records incurred usage. Logged records contain no prompts, image bytes or authorization headers.
 
-Capability discovery follows the official [Models API](https://openrouter.ai/docs/api/api-reference/models/get-models). JSON mode is not treated as a schema guarantee: every response is validated again before engine execution. Only scene planning and combined reference-image/scene planning are executable live paths. Asset-manager, image-generator and reviewer model slots are configuration groundwork; those live workflows remain unfinished.
+Capability discovery follows the official [Models API](https://openrouter.ai/docs/api/api-reference/models/get-models). The previous live adapter still produces the concrete scene contract for existing API clients. The dynamic room UI calls the offline planner. A future provider can return a `RoomSpec` after schema and semantic validation.
 
 ## Errors
 

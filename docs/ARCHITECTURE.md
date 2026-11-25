@@ -1,6 +1,6 @@
 # Infiniture architecture and implementation plan
 
-The supplied workspace is empty. There is no earlier placement system, existing animation, or reusable source to audit. The new brief supersedes the refactor request and authorizes a standalone implementation.
+Infiniture started as a standalone prototype. The dynamic interior phase extends the existing grouped placement engine and keeps its concrete scene and saved-map contracts compatible.
 
 ## Boundaries
 
@@ -31,3 +31,13 @@ AI produces a semantic graph, never authoritative coordinates. A single engine a
 - Credentials are ignored backend environment files. No credentials are sent in API responses or frontend builds.
 
 Progress, tests and explicit remaining work will be recorded in `docs/PROGRESS.md` after implementation.
+
+## Dynamic rooms
+
+1. `architecture.py` resolves dimensions and shape from the room preferences, UI overrides and geometry seed. The floor mask defines wall edges, doors, and empty circulation cells before asset selection.
+2. `selection.py` resolves semantic categories against approved assets. It chooses group quantities within the room's floor capacity and uses separate deterministic streams for furniture and decorative roles. It outputs the existing `Scene` with selected asset IDs and relationship references.
+3. `zoning.py` allocates connected floor masks around the assembled group's fit and wall requirements, door proximity and soft relationships between zones. Required zones are allocated first. Reserved circulation and partitions are excluded.
+4. `solver.py` reuses group assembly, relationship checks, bounded placement search and ranking. Dynamic candidates validate required groups before adding compatible optional groups. Complete validation compares the architecture to the seeded request, checks physical footprints against floor and zone masks, and verifies all doors and mandatory interaction points. Phaser's movement uses the same floor mask and collision bounds.
+5. A saved dynamic map retains its room specification or scene, effective geometry configuration, seeds and metadata snapshot. Requests with only a concrete scene and the legacy seed still use the earlier rectangular path.
+
+The structured `RoomSpec` schema is provider neutral. A future OpenRouter adapter can produce it after schema and semantic validation. The current generator only uses the offline planner. Geometry supports orthogonal outlines, a partial partition with a bypass, and up to four boundary entrances. Doors do not connect separate maps. Complex demands can fail with a capacity or search-budget diagnostic. Timing limits can reduce which validated candidates are considered.

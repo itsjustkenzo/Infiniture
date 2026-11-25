@@ -28,7 +28,12 @@ import {
   AlertCircle,
   LoaderCircle,
 } from 'lucide-react';
-import type { Asset, MapResult } from '../../../packages/shared/types';
+import type {
+  Asset,
+  GenerationSeeds,
+  GeometryOptions,
+  MapResult,
+} from '../../../packages/shared/types';
 import { overlays as allOverlays } from '../../../packages/shared/types';
 import { api } from './api';
 import { MapCanvas } from './MapCanvas';
@@ -49,6 +54,8 @@ const concepts = [
   'Kitchen',
   'Office',
   'Shop',
+  'Warehouse',
+  'Classroom',
   'Hospital',
   'Blacksmith',
   'Laboratory',
@@ -56,6 +63,46 @@ const concepts = [
 ];
 const initialDescription =
   'A welcoming medieval tavern with an oak dining table, a candlelit service counter, and a small storage area. Keep clear paths between each area.';
+const shapeNames = {
+  auto: 'Seeded shape',
+  rectangle: 'Rectangle',
+  square: 'Square',
+  l_shape: 'L-shaped',
+  alcove: 'Alcove',
+  orthogonal: 'Irregular orthogonal',
+};
+const initialGeometry: GeometryOptions = {
+  shape: 'auto',
+  variableSize: true,
+  entrances: 2,
+  partition: false,
+};
+const initialSeeds: GenerationSeeds = {
+  geometry: 1042,
+  selection: 1042,
+  placement: 1042,
+  decoration: 1042,
+};
+const seedLabels: Record<keyof GenerationSeeds, string> = {
+  geometry: 'Geometry seed',
+  selection: 'Furniture selection seed',
+  placement: 'Placement seed',
+  decoration: 'Decoration seed',
+};
+const regeneration = {
+  arrange: 'Furniture arrangement only',
+  furniture: 'Furniture selection and arrangement',
+  geometry: 'Geometry and complete layout',
+  variant: 'Full interior concept',
+};
+type Regeneration = keyof typeof regeneration;
+const nextSeed = (value: number) => (value + 1) % 2147483648;
+function requireWholeNumber(label: string, value: number, min: number, max: number) {
+  if (!Number.isInteger(value) || value < min || value > max) {
+    throw new Error(`${label} must be a whole number from ${min} to ${max}.`);
+  }
+}
+
 function pretty(v: any) {
   return JSON.stringify(v, null, 2);
 }
@@ -77,7 +124,10 @@ export function App() {
   const [description, setDescription] = useState(initialDescription);
   const [width, setWidth] = useState(28);
   const [height, setHeight] = useState(24);
-  const [seed, setSeed] = useState(1042);
+  const [geometry, setGeometry] = useState(initialGeometry);
+  const [seeds, setSeeds] = useState(initialSeeds);
+  const [conceptSeed, setConceptSeed] = useState(0);
+  const [regenerationMode, setRegenerationMode] = useState<Regeneration>('arrange');
   const [density, setDensity] = useState(0.5);
   const [decoration, setDecoration] = useState(0.5);
   const [candidates, setCandidates] = useState(4);
@@ -88,7 +138,6 @@ export function App() {
   const [notice, setNotice] = useState('');
   const [failed, setFailed] = useState<any>(null);
   const [reference, setReference] = useState<any>(null);
-  const [live, setLive] = useState(false);
   const [enabled, setEnabled] = useState<string[]>([]);
   const [zoom, setZoom] = useState(1);
   const [play, setPlay] = useState(false);
@@ -127,46 +176,110 @@ export function App() {
   useEffect(() => {
     refresh().catch((e) => setError(e.message));
   }, []);
-  async function generate(useScene = false, newSeed = seed) {
+  async function generate(mode: 'concept' | 'spec' | Regeneration = 'concept') {
     setError('');
     setNotice('');
     setFailed(null);
-    setBusy(useScene ? 'Validating scene graph…' : 'Planning functional areas…');
+    setBusy(mode === 'spec' ? 'Validating the specification…' : 'Preparing the room…');
     try {
-      let scene;
-      if (useScene) scene = JSON.parse(sceneText);
-      else {
-        const result = await api('/plan', {
-          description,
-          density,
-          decorationDensity: decoration,
-          mode: live ? 'live' : 'mock',
-          ...(reference ? { referenceId: reference.id } : {}),
-        });
-        scene = result.scene;
-        setSceneText(pretty(scene));
-        setNotice(result.notice || `Semantic scene planned with ${result.model}.`);
-      }
-      setBusy('Assembling groups and validating routes…');
-      const result = await api('/generate', {
-        scene,
+      const fromMap = mode !== 'concept' && mode !== 'spec' && !!map;
+      let options = {
         width,
         height,
-        seed: newSeed,
+        geometry,
+        seeds,
         candidates,
         density,
         decorationDensity: decoration,
         weights,
+      };
+      let definition: Record<string, any>;
+      let requestedConcept = conceptSeed;
+      let retainObjects: string[] | undefined;
+      if (fromMap) {
+        const {
+          assets: _assets,
+          retainObjects: _retain,
+          scene,
+          room,
+          seed,
+          ...saved
+        } = map.reproduction;
+        definition = room ? { room } : { scene };
+        const previousSeeds: GenerationSeeds = saved.seeds ?? {
+          geometry: seed,
+          selection: seed,
+          placement: seed,
+          decoration: seed,
+        };
+        const rebuild = mode === 'geometry' || mode === 'variant';
+        options = {
+          ...saved,
+          geometry: saved.geometry ?? initialGeometry,
+          seeds: {
+            geometry: rebuild ? nextSeed(previousSeeds.geometry) : previousSeeds.geometry,
+            selection:
+              rebuild || mode === 'furniture'
+                ? nextSeed(previousSeeds.selection)
+                : previousSeeds.selection,
+            placement: nextSeed(previousSeeds.placement),
+            decoration: rebuild ? nextSeed(previousSeeds.decoration) : previousSeeds.decoration,
+          },
+        };
+        if (mode === 'arrange' && map.layout.geometry)
+          retainObjects = map.layout.placements.map(({ id }) => id);
+        if (mode === 'variant') requestedConcept = nextSeed(room?.conceptSeed ?? conceptSeed);
+      } else if (mode === 'spec') {
+        const spec = JSON.parse(sceneText);
+        definition = spec?.purpose ? { room: spec } : { scene: spec };
+        if (definition.room) {
+          options.density = spec.density ?? density;
+          options.decorationDensity = spec.decorationDensity ?? decoration;
+        }
+      } else {
+        definition = {};
+      }
+      requireWholeNumber('Width', options.width, 12, 64);
+      requireWholeNumber('Height', options.height, 12, 64);
+      requireWholeNumber('Entrances', options.geometry.entrances, 1, 4);
+      requireWholeNumber('Candidates', options.candidates, 1, 12);
+      for (const key of Object.keys(seedLabels) as (keyof GenerationSeeds)[]) {
+        requireWholeNumber(seedLabels[key], options.seeds[key], 0, 2147483647);
+      }
+      if (mode === 'concept' || mode === 'variant') {
+        requireWholeNumber('Concept seed', requestedConcept, 0, 2147483647);
+        const result = await api('/plan', {
+          description: mode === 'variant' ? map?.scene.description || description : description,
+          density: options.density,
+          decorationDensity: options.decorationDensity,
+          conceptSeed: requestedConcept,
+          mode: 'mock',
+          ...(reference ? { referenceId: reference.id } : {}),
+        });
+        definition = result.room ? { room: result.room } : { scene: result.scene };
+        setSceneText(pretty(result.room ?? result.scene));
+        setNotice(result.notice);
+      }
+      const legacyArrangement = fromMap && mode === 'arrange' && !map.layout.geometry;
+      setBusy('Building architecture, placing groups, and validating routes…');
+      const result = await api('/generate', {
+        ...options,
+        ...definition,
+        ...(retainObjects ? { retainObjects } : {}),
+        ...(legacyArrangement
+          ? { geometry: null, seeds: null, seed: options.seeds.placement }
+          : {}),
       });
       if (!result.ok) {
         setFailed(result.diagnostics);
         setError('No valid layout found. Inspect the failed constraints below.');
-        setMap(null);
       } else {
         setMap(result);
+        setSceneText(pretty(result.reproduction.room ?? result.scene));
         setSelected('');
         setStage('Final map');
-        setSeed(newSeed);
+        setSeeds(result.reproduction.seeds ?? options.seeds);
+        setConceptSeed(result.reproduction.room?.conceptSeed ?? requestedConcept);
       }
       await refresh();
     } catch (e) {
@@ -183,7 +296,7 @@ export function App() {
       const body = new FormData();
       body.append('image', file);
       setReference(await api('/references', body));
-      setNotice('Reference stored. Live vision planning requires a configured OpenRouter model.');
+      setNotice('Reference stored. This phase uses offline room specifications.');
     } catch (e) {
       setError((e as Error).message);
     } finally {
@@ -212,10 +325,16 @@ export function App() {
       });
       if (!report.valid) throw new Error('Saved map failed current validation');
       setMap({ ...saved.result, validation: report });
-      setSceneText(pretty(saved.result.scene));
-      setSeed(saved.result.layout.seed);
-      setWidth(saved.result.layout.width);
-      setHeight(saved.result.layout.height);
+      const config = saved.result.reproduction;
+      setSceneText(pretty(config.room ?? saved.result.scene));
+      setSeeds(config.seeds ?? { ...initialSeeds, placement: saved.result.layout.seed });
+      setGeometry(config.geometry ?? initialGeometry);
+      setConceptSeed(config.room?.conceptSeed ?? 0);
+      setWidth(config.width ?? saved.result.layout.width);
+      setHeight(config.height ?? saved.result.layout.height);
+      setDensity(config.density);
+      setDecoration(config.decorationDensity);
+      setDescription(saved.result.scene.description || saved.result.scene.title);
       setTab('Map generator');
       setError('');
       setNotice('Saved map loaded and revalidated.');
@@ -345,7 +464,7 @@ export function App() {
             Workspace <span>/</span> <strong>{tab}</strong>
           </div>
           <div className="top-actions">
-            <span className="pill">{live ? 'OpenRouter planner' : 'Offline semantic planner'}</span>
+            <span className="pill">Offline semantic planner</span>
             <button
               className="icon-btn"
               aria-label="Refresh system status"
@@ -415,7 +534,7 @@ export function App() {
                       placeholder="Describe your interior…"
                     />
                     <div className="concepts">
-                      {concepts.slice(0, 5).map((c) => (
+                      {concepts.slice(0, 8).map((c) => (
                         <button
                           key={c}
                           onClick={() =>
@@ -444,6 +563,24 @@ export function App() {
                     </label>
                     <div className="section-rule" />
                     <h3>Room configuration</h3>
+                    <label>
+                      Room shape
+                      <select
+                        value={geometry.shape}
+                        onChange={(e) =>
+                          setGeometry({
+                            ...geometry,
+                            shape: e.target.value as GeometryOptions['shape'],
+                          })
+                        }
+                      >
+                        {Object.entries(shapeNames).map(([value, label]) => (
+                          <option value={value} key={value}>
+                            {label}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
                     <div className="field-pair">
                       <label>
                         Width <span>tiles</span>
@@ -466,6 +603,34 @@ export function App() {
                         />
                       </label>
                     </div>
+                    <label className="check-label">
+                      <input
+                        type="checkbox"
+                        checked={geometry.variableSize}
+                        onChange={(e) =>
+                          setGeometry({ ...geometry, variableSize: e.target.checked })
+                        }
+                      />{' '}
+                      Vary dimensions by seed
+                    </label>
+                    <label>
+                      Entrances
+                      <input
+                        type="number"
+                        min="1"
+                        max="4"
+                        value={geometry.entrances}
+                        onChange={(e) => setGeometry({ ...geometry, entrances: +e.target.value })}
+                      />
+                    </label>
+                    <label className="check-label">
+                      <input
+                        type="checkbox"
+                        checked={geometry.partition}
+                        onChange={(e) => setGeometry({ ...geometry, partition: e.target.checked })}
+                      />{' '}
+                      Add internal partition
+                    </label>
                     <label className="range-label">
                       Furniture density <strong>{Math.round(density * 100)}%</strong>
                       <input
@@ -489,21 +654,31 @@ export function App() {
                         onChange={(e) => setDecoration(+e.target.value / 100)}
                       />
                     </label>
-                    <label>
-                      Visual style
-                      <select value="hearth_pixel" onChange={() => {}}>
-                        <option value="hearth_pixel">Hearth · original pixel art</option>
-                      </select>
-                    </label>
+                    <div className="section-rule" />
+                    <h3>Generation seeds</h3>
+                    <div className="field-pair">
+                      {(Object.keys(seeds) as (keyof GenerationSeeds)[]).map((key) => (
+                        <label key={key}>
+                          {seedLabels[key]}
+                          <input
+                            type="number"
+                            min="0"
+                            max="2147483647"
+                            value={seeds[key]}
+                            onChange={(e) => setSeeds({ ...seeds, [key]: +e.target.value })}
+                          />
+                        </label>
+                      ))}
+                    </div>
                     <div className="field-pair">
                       <label>
-                        Generation seed
+                        Concept seed
                         <input
                           type="number"
                           min="0"
                           max="2147483647"
-                          value={seed}
-                          onChange={(e) => setSeed(+e.target.value)}
+                          value={conceptSeed}
+                          onChange={(e) => setConceptSeed(+e.target.value)}
                         />
                       </label>
                       <label>
@@ -517,14 +692,6 @@ export function App() {
                         />
                       </label>
                     </div>
-                    <label className="check-label">
-                      <input
-                        type="checkbox"
-                        checked={live}
-                        onChange={(e) => setLive(e.target.checked)}
-                      />{' '}
-                      Use live AI planning
-                    </label>
                     <button
                       className="primary full"
                       disabled={!!busy || !description.trim()}
@@ -537,11 +704,6 @@ export function App() {
                       )}{' '}
                       {busy ? 'Building interior…' : 'Generate interior'}
                     </button>
-                    <p className="helper">
-                      AI proposes the concept.
-                      <br />
-                      The spatial engine makes it playable.
-                    </p>
                   </>
                 ) : (
                   <>
@@ -580,6 +742,7 @@ export function App() {
                     {map && (
                       <span className="muted">
                         {map.layout.width} × {map.layout.height}
+                        {map.layout.geometry ? ` · ${shapeNames[map.layout.geometry.shape]}` : ''}
                       </span>
                     )}
                   </div>
@@ -650,13 +813,27 @@ export function App() {
                       </button>
                     ))}
                   </div>
-                  <button
-                    className="text-btn"
-                    disabled={!map || !!busy}
-                    onClick={() => generate(true, seed + 1)}
-                  >
-                    <RotateCcw size={13} /> Regenerate
-                  </button>
+                  <div className="regenerate-controls">
+                    <select
+                      aria-label="Regeneration mode"
+                      disabled={!map || !!busy}
+                      value={regenerationMode}
+                      onChange={(e) => setRegenerationMode(e.target.value as Regeneration)}
+                    >
+                      {Object.entries(regeneration).map(([value, label]) => (
+                        <option key={value} value={value}>
+                          {label}
+                        </option>
+                      ))}
+                    </select>
+                    <button
+                      className="text-btn"
+                      disabled={!map || !!busy}
+                      onClick={() => generate(regenerationMode)}
+                    >
+                      <RotateCcw size={13} /> Regenerate
+                    </button>
+                  </div>
                 </div>
               </div>
               <div className="diagnostic-strip">
@@ -698,23 +875,28 @@ export function App() {
                     <h2>
                       <Layers size={16} /> Functional zones
                     </h2>
-                    <span className="tiny-label">{map?.scene.zones.length || 0} ZONES</span>
+                    <span className="tiny-label">
+                      {Object.keys(map?.layout.zones ?? {}).length} ZONES
+                    </span>
                   </div>
                   {map ? (
                     <div className="zone-list">
-                      {map.scene.zones.map((z: any, i: number) => (
-                        <div key={z.id}>
-                          <span className={'zone-dot zone-' + i} />
-                          <span>
-                            {z.purpose}
-                            <small>
-                              {map.layout.zones[z.id]?.width} × {map.layout.zones[z.id]?.height}{' '}
-                              tiles
-                            </small>
-                          </span>
-                          <span className="zone-state">Connected</span>
-                        </div>
-                      ))}
+                      {map.scene.zones
+                        .filter((z: any) => map.layout.zones[z.id])
+                        .map((z: any, i: number) => (
+                          <div key={z.id}>
+                            <span className={'zone-dot zone-' + i} />
+                            <span>
+                              {z.purpose}
+                              <small>
+                                {map.layout.zoneCells?.[z.id]
+                                  ? `${map.layout.zoneCells[z.id].length} floor cells`
+                                  : `${map.layout.zones[z.id].width} × ${map.layout.zones[z.id].height} tiles`}
+                              </small>
+                            </span>
+                            <span className="zone-state">Connected</span>
+                          </div>
+                        ))}
                     </div>
                   ) : (
                     <p className="empty-note">Functional areas are allocated before furniture.</p>
@@ -789,6 +971,43 @@ export function App() {
               )}
               {tab === 'Layout inspector' && diagnostics && (
                 <section className="mini-panel">
+                  {diagnostics.geometry && (
+                    <>
+                      <h2>Room geometry</h2>
+                      <div className="report-line">
+                        <span>
+                          {shapeNames[diagnostics.geometry.shape as keyof typeof shapeNames]} ·{' '}
+                          {diagnostics.geometry.width} × {diagnostics.geometry.height}
+                        </span>
+                        <strong>
+                          {diagnostics.geometry.doors} entrances ·{' '}
+                          {diagnostics.geometry.partitionCells} partition cells
+                        </strong>
+                      </div>
+                      <p>
+                        {diagnostics.geometry.floorCells} floor cells · {diagnostics.geometry.walls}{' '}
+                        wall segments
+                      </p>
+                      <details>
+                        <summary>Furniture selection and seeds</summary>
+                        {diagnostics.selection.map((choice: any) => (
+                          <div key={choice.requirementId} className="selection-decision">
+                            <strong>{choice.category}</strong>
+                            <span>
+                              {choice.selected} selected · {choice.placed ?? '—'} placed ·{' '}
+                              {choice.minimum} required · {choice.preferred} preferred
+                            </span>
+                            <small>
+                              {choice.instances
+                                .map((group: any) => group.assetIds.join(', '))
+                                .join(' / ')}
+                            </small>
+                          </div>
+                        ))}
+                        <pre>{pretty(diagnostics.seeds)}</pre>
+                      </details>
+                    </>
+                  )}
                   <h2>Candidate comparison</h2>
                   <table>
                     <thead>
@@ -821,7 +1040,7 @@ export function App() {
               {failed && (
                 <section className="mini-panel">
                   <h3>Generation failed</h3>
-                  <pre>{pretty(failed.failures)}</pre>
+                  <pre>{pretty(failed)}</pre>
                 </section>
               )}
             </section>
@@ -982,12 +1201,12 @@ export function App() {
             <section className="mini-panel">
               <div className="panel-heading">
                 <h2>
-                  <Code size={17} /> Scene JSON
+                  <Code size={17} /> Room specification JSON
                 </h2>
                 <button
                   onClick={() => {
                     try {
-                      download(JSON.parse(sceneText), 'scene.json');
+                      download(JSON.parse(sceneText), 'room-specification.json');
                     } catch {
                       setError('Scene JSON is invalid. Correct it before exporting.');
                     }
@@ -999,7 +1218,7 @@ export function App() {
               </div>
               <textarea
                 className="code-editor"
-                aria-label="Semantic scene JSON"
+                aria-label="Room specification JSON"
                 value={sceneText}
                 onChange={(e) => setSceneText(e.target.value)}
                 spellCheck={false}
@@ -1009,10 +1228,10 @@ export function App() {
                 disabled={!!busy || !sceneText}
                 onClick={() => {
                   setTab('Map generator');
-                  generate(true);
+                  generate('spec');
                 }}
               >
-                <WandSparkles size={16} /> Generate from this scene
+                <WandSparkles size={16} /> Generate from this specification
               </button>
             </section>
           </div>
@@ -1090,8 +1309,8 @@ export function App() {
                 Save model assignments
               </button>
               <p className="helper">
-                Image and vision roles are checked against advertised model capabilities. Live
-                planning is opt-in in the room brief.
+                Model assignments are saved for future integration. The room generator uses offline
+                specifications.
               </p>
             </section>
             <section className="mini-panel">

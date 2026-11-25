@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import Phaser from 'phaser';
-import type { MapResult, Placement } from '../../../packages/shared/types';
+import type { MapResult, Point, RoomGeometry, WallSide } from '../../../packages/shared/types';
 
 type Props = {
   map: MapResult;
@@ -14,6 +14,53 @@ type Props = {
 };
 const TILE = 16;
 const COLORS = [0x76b5a0, 0xc8a277, 0x8c9cc6, 0xb58fba, 0xc6bd7a];
+
+function wallLine({ x, y, side }: Point & { side: WallSide }): [number, number, number, number] {
+  switch (side) {
+    case 'north':
+      return [x * TILE, y * TILE, (x + 1) * TILE, y * TILE];
+    case 'south':
+      return [x * TILE, (y + 1) * TILE, (x + 1) * TILE, (y + 1) * TILE];
+    case 'west':
+      return [x * TILE, y * TILE, x * TILE, (y + 1) * TILE];
+    case 'east':
+      return [(x + 1) * TILE, y * TILE, (x + 1) * TILE, (y + 1) * TILE];
+  }
+}
+
+function drawRoom(scene: Phaser.Scene, geometry: RoomGeometry) {
+  for (const { x, y } of geometry.floor) {
+    scene.add
+      .image(x * TILE, y * TILE, `${geometry.floorStyle}_south`)
+      .setOrigin(0)
+      .setDepth(-40)
+      .setTint((x + y) % 3 === 0 ? 0xeee4cd : 0xffffff);
+  }
+  const edges = scene.add.graphics().setDepth(-10);
+  for (const wall of geometry.walls) {
+    if (wall.side === 'north') {
+      scene.add
+        .image(wall.x * TILE, wall.y * TILE, 'north_wall_south')
+        .setOrigin(0, 1)
+        .setDepth(-20);
+    } else {
+      edges.lineStyle(wall.side === 'south' ? 3 : 4, 0x5b4738);
+      edges.lineBetween(...wallLine(wall));
+    }
+  }
+  for (const door of geometry.doors) {
+    edges.lineStyle(3, 0xd9bd80);
+    edges.lineBetween(...wallLine(door));
+    if (door.side === 'north') {
+      const sprite = scene.add
+        .image((door.x + 0.5) * TILE, door.y * TILE, 'door_south')
+        .setOrigin(0.5, 1)
+        .setDepth(-15);
+      sprite.displayWidth = TILE;
+    }
+  }
+}
+
 export function MapCanvas(props: Props) {
   const host = useRef<HTMLDivElement>(null);
   const current = useRef(props);
@@ -23,6 +70,8 @@ export function MapCanvas(props: Props) {
     if (!host.current) return;
     const map = props.map;
     const assets = new Map(map.assets.map((a) => [a.id, a]));
+    const geometry = map.layout.geometry;
+    const floor = geometry && new Set(geometry.floor.map(({ x, y }) => `${x},${y}`));
     class Room extends Phaser.Scene {
       player!: Phaser.GameObjects.Sprite;
       debug!: Phaser.GameObjects.Graphics;
@@ -48,40 +97,44 @@ export function MapCanvas(props: Props) {
         this.cameras.main.setBackgroundColor('#192229');
         const w = map.layout.width,
           h = map.layout.height;
-        this.add
-          .rectangle(
-            (w * TILE) / 2,
-            (h * TILE) / 2 + 6,
-            (w - 1) * TILE,
-            (h - 1) * TILE,
-            0x080d12,
-            0.4,
-          )
-          .setDepth(-50);
-        for (let y = 1; y < h - 1; y++)
+        if (geometry) {
+          drawRoom(this, geometry);
+        } else {
+          this.add
+            .rectangle(
+              (w * TILE) / 2,
+              (h * TILE) / 2 + 6,
+              (w - 1) * TILE,
+              (h - 1) * TILE,
+              0x080d12,
+              0.4,
+            )
+            .setDepth(-50);
+          for (let y = 1; y < h - 1; y++)
+            for (let x = 1; x < w - 1; x++)
+              this.add
+                .image(x * TILE, y * TILE, 'wood_floor_south')
+                .setOrigin(0)
+                .setDepth(-40)
+                .setTint((x + y) % 3 === 0 ? 0xeee4cd : 0xffffff);
           for (let x = 1; x < w - 1; x++)
             this.add
-              .image(x * TILE, y * TILE, 'wood_floor_south')
+              .image(x * TILE, 8, 'north_wall_south')
               .setOrigin(0)
-              .setDepth(-40)
-              .setTint((x + y) % 3 === 0 ? 0xeee4cd : 0xffffff);
-        for (let x = 1; x < w - 1; x++)
+              .setDepth(-20);
+          const border = this.add.graphics().setDepth(-10);
+          border.fillStyle(0x3a3534, 1);
+          border.fillRect(12, 8, 5, (h - 1) * 16 - 8);
+          border.fillRect((w - 1) * 16 - 1, 8, 5, (h - 1) * 16 - 8);
+          border.fillStyle(0x5b4738, 1);
+          border.fillRect(16, (h - 1) * 16, (w - 2) * 16, 4);
           this.add
-            .image(x * TILE, 8, 'north_wall_south')
-            .setOrigin(0)
-            .setDepth(-20);
-        const border = this.add.graphics().setDepth(-10);
-        border.fillStyle(0x3a3534, 1);
-        border.fillRect(12, 8, 5, (h - 1) * 16 - 8);
-        border.fillRect((w - 1) * 16 - 1, 8, 5, (h - 1) * 16 - 8);
-        border.fillStyle(0x5b4738, 1);
-        border.fillRect(16, (h - 1) * 16, (w - 2) * 16, 4);
-        this.add
-          .image(map.layout.exit.x * TILE, 30, 'door_south')
-          .setOrigin(0.5, 1)
-          .setDepth(-5);
-        border.fillStyle(0xcfa878);
-        border.fillRect((map.layout.entrance.x - 1) * 16, (h - 1) * 16, 32, 4);
+            .image(map.layout.exit.x * TILE, 30, 'door_south')
+            .setOrigin(0.5, 1)
+            .setDepth(-5);
+          border.fillStyle(0xcfa878);
+          border.fillRect((map.layout.entrance.x - 1) * 16, (h - 1) * 16, 32, 4);
+        }
         const visibleFurniture = !['Architecture', 'Zones'].includes(current.current.stage);
         for (const p of map.layout.placements) {
           const a = assets.get(p.assetId)!;
@@ -214,6 +267,14 @@ export function MapCanvas(props: Props) {
           ty + r > map.layout.height - 1
         )
           return true;
+        if (floor) {
+          const epsilon = 1e-7;
+          for (let x = Math.floor(tx - r + epsilon); x < Math.ceil(tx + r - epsilon); x++) {
+            for (let y = Math.floor(ty - r + epsilon); y < Math.ceil(ty + r - epsilon); y++) {
+              if (!floor.has(`${x},${y}`)) return true;
+            }
+          }
+        }
         return map.validation.collisions.some(
           (b) => tx - r < b.x + b.width && tx + r > b.x && ty - r < b.y + b.height && ty + r > b.y,
         );
@@ -297,14 +358,36 @@ export function MapCanvas(props: Props) {
             label(0.4, y, String(y));
           }
         }
-        if (enabled.has('Boundaries'))
+        if (geometry) {
+          if (enabled.has('Floor cells'))
+            geometry.floor.forEach((p) => rect(p.x, p.y, 1, 1, 0x9ecdb5, 0.04));
+          if (enabled.has('Boundaries') || enabled.has('Wall segments')) {
+            d.lineStyle(1.6, 0xf5d490, 0.95);
+            geometry.walls.forEach((wall) => d.lineBetween(...wallLine(wall)));
+            geometry.partitions.forEach((p) => rect(p.x, p.y, 1, 1, 0xed9a83, 0.3));
+          }
+          if (enabled.has('Entrances'))
+            geometry.doors.forEach((door, i) => {
+              d.lineStyle(2, 0x8ce2de);
+              d.lineBetween(...wallLine(door));
+              dot(door.approach.x, door.approach.y, 0x8ce2de);
+              label(door.approach.x + 0.15, door.approach.y, `Door ${i + 1}`);
+            });
+        } else if (enabled.has('Boundaries'))
           rect(1, 2, map.layout.width - 2, map.layout.height - 3, 0xf5d490, 0.02);
         if (enabled.has('Zones'))
           Object.entries(map.layout.zones).forEach(([id, z], i) => {
-            rect(z.x, z.y, z.width, z.height, COLORS[i % COLORS.length]);
+            const tiles = map.layout.zoneCells?.[id];
+            const color = COLORS[i % COLORS.length];
+            if (tiles) {
+              d.fillStyle(color, 0.22);
+              tiles.forEach(({ x, y }) => d.fillRect(x * TILE, y * TILE, TILE, TILE));
+            } else rect(z.x, z.y, z.width, z.height, color);
+            const labelCell =
+              tiles?.reduce((top, tile) => (tile.y < top.y ? tile : top), tiles[0]) ?? z;
             label(
-              z.x + 0.2,
-              z.y + 0.2,
+              labelCell.x + 0.2,
+              labelCell.y + 0.2,
               map.scene.zones.find((a: any) => a.id === id)?.purpose || id,
             );
           });

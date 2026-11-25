@@ -1,6 +1,28 @@
 // JSON Schemas beside this file are authoritative at service boundaries.
 export type Point = { x: number; y: number };
 export type Rect = Point & { width: number; height: number };
+export type WallSide = 'north' | 'south' | 'east' | 'west';
+export type RoomShape = 'rectangle' | 'square' | 'l_shape' | 'alcove' | 'orthogonal';
+export type GeometryOptions = {
+  shape: RoomShape | 'auto';
+  variableSize: boolean;
+  entrances: number;
+  partition: boolean;
+};
+export type GenerationSeeds = {
+  geometry: number;
+  selection: number;
+  placement: number;
+  decoration: number;
+};
+export type RoomGeometry = {
+  shape: RoomShape;
+  floorStyle: 'wood_floor' | 'stone_floor';
+  floor: Point[];
+  walls: (Point & { side: WallSide })[];
+  doors: (Point & { side: WallSide; id: string; approach: Point })[];
+  partitions: Point[];
+};
 export type Asset = {
   id: string;
   name: string;
@@ -39,6 +61,8 @@ export type Layout = {
   entrance: Point;
   exit: Point;
   circulation: Point[];
+  geometry?: RoomGeometry | null;
+  zoneCells?: Record<string, Point[]> | null;
 };
 export type MapResult = {
   ok: true;
@@ -63,6 +87,9 @@ export type MapResult = {
 export const overlays = [
   'Grid',
   'Boundaries',
+  'Floor cells',
+  'Wall segments',
+  'Entrances',
   'Zones',
   'Groups',
   'Group anchors',

@@ -167,7 +167,7 @@ app.post(
     const result = await engineCall('/generate', request);
     await store.put('history', {
       ok: result.ok,
-      title: req.body.scene.title,
+      title: req.body.room?.title ?? req.body.scene?.title ?? 'Untitled room',
       diagnostics: result.diagnostics,
     });
     res.json(result);
@@ -326,16 +326,14 @@ app.get(
   asyncRoute(async (_: any, res: any) => res.json(await store.list('ai_usage'))),
 );
 app.use((err: any, _: any, res: express.Response, __: any) =>
-  res
-    .status(err.status || (err.code === 'LIMIT_FILE_SIZE' ? 413 : 500))
-    .json({
-      error: err.status
-        ? err.message
-        : err.code === 'LIMIT_FILE_SIZE'
-          ? 'Image exceeds 8 MB'
-          : 'Internal request failed',
-      ...(err.details ? { details: err.details } : {}),
-    }),
+  res.status(err.status || (err.code === 'LIMIT_FILE_SIZE' ? 413 : 500)).json({
+    error: err.status
+      ? err.message
+      : err.code === 'LIMIT_FILE_SIZE'
+        ? 'Image exceeds 8 MB'
+        : 'Internal request failed',
+    ...(err.details ? { details: err.details } : {}),
+  }),
 );
 await mkdir(path.join(root, 'runtime/uploads'), { recursive: true });
 await store.init();
