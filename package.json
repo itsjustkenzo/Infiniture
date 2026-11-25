@@ -1,0 +1,22 @@
+{
+  "name": "infiniture",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "apps/web",
+    "apps/api"
+  ],
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "npm run build -w apps/api && npm run build -w apps/web",
+    "test": "npm run test -w apps/api && python -m pytest services/engine/tests -q",
+    "test:browser": "playwright test",
+    "format": "prettier --write apps packages/shared/types.ts scripts/*.mjs tests/browser docs/*.md README.md",
+    "schema": "python services/engine/export_schema.py",
+    "assets": "python scripts/create_assets.py"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.1",
+    "prettier": "^3.10.1"
+  }
+}

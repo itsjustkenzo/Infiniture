@@ -1,0 +1,318 @@
+{
+  "$defs": {
+    "Group": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "zoneId": {
+          "title": "Zoneid",
+          "type": "string"
+        },
+        "anchorId": {
+          "title": "Anchorid",
+          "type": "string"
+        },
+        "required": {
+          "default": true,
+          "title": "Required",
+          "type": "boolean"
+        },
+        "objects": {
+          "items": {
+            "$ref": "#/$defs/ObjectSpec"
+          },
+          "maxItems": 24,
+          "minItems": 1,
+          "title": "Objects",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "zoneId",
+        "anchorId",
+        "objects"
+      ],
+      "title": "Group",
+      "type": "object"
+    },
+    "NPC": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "groupId": {
+          "title": "Groupid",
+          "type": "string"
+        },
+        "dialogue": {
+          "maxLength": 500,
+          "title": "Dialogue",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "groupId",
+        "dialogue"
+      ],
+      "title": "NPC",
+      "type": "object"
+    },
+    "ObjectSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[a-zA-Z][a-zA-Z0-9_-]{0,63}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "assetId": {
+          "title": "Assetid",
+          "type": "string"
+        },
+        "required": {
+          "default": true,
+          "title": "Required",
+          "type": "boolean"
+        },
+        "orientation": {
+          "default": "south",
+          "enum": [
+            "north",
+            "south",
+            "east",
+            "west"
+          ],
+          "title": "Orientation",
+          "type": "string"
+        },
+        "relations": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Relation"
+          },
+          "title": "Relations",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "assetId"
+      ],
+      "title": "ObjectSpec",
+      "type": "object"
+    },
+    "Relation": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "title": "Type",
+          "type": "string"
+        },
+        "target": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Target"
+        },
+        "distance": {
+          "default": 1,
+          "maximum": 32,
+          "minimum": 0,
+          "title": "Distance",
+          "type": "number"
+        },
+        "axis": {
+          "default": "x",
+          "enum": [
+            "x",
+            "y"
+          ],
+          "title": "Axis",
+          "type": "string"
+        },
+        "wall": {
+          "default": "north",
+          "enum": [
+            "north",
+            "south",
+            "east",
+            "west"
+          ],
+          "title": "Wall",
+          "type": "string"
+        },
+        "socket": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Socket"
+        },
+        "mandatory": {
+          "default": true,
+          "title": "Mandatory",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "title": "Relation",
+      "type": "object"
+    },
+    "Zone": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "purpose": {
+          "title": "Purpose",
+          "type": "string"
+        },
+        "minimumArea": {
+          "default": 16,
+          "maximum": 4096,
+          "minimum": 4,
+          "title": "Minimumarea",
+          "type": "integer"
+        },
+        "preferredArea": {
+          "default": 48,
+          "maximum": 4096,
+          "minimum": 4,
+          "title": "Preferredarea",
+          "type": "integer"
+        },
+        "priority": {
+          "default": 1,
+          "maximum": 100,
+          "minimum": 0,
+          "title": "Priority",
+          "type": "integer"
+        },
+        "preferredWall": {
+          "anyOf": [
+            {
+              "enum": [
+                "north",
+                "south",
+                "east",
+                "west"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Preferredwall"
+        },
+        "accessible": {
+          "default": true,
+          "title": "Accessible",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "purpose"
+      ],
+      "title": "Zone",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schemaversion",
+      "type": "string"
+    },
+    "title": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Title",
+      "type": "string"
+    },
+    "description": {
+      "default": "",
+      "maxLength": 4000,
+      "title": "Description",
+      "type": "string"
+    },
+    "styleId": {
+      "const": "hearth_pixel",
+      "default": "hearth_pixel",
+      "title": "Styleid",
+      "type": "string"
+    },
+    "zones": {
+      "items": {
+        "$ref": "#/$defs/Zone"
+      },
+      "maxItems": 12,
+      "minItems": 1,
+      "title": "Zones",
+      "type": "array"
+    },
+    "groups": {
+      "items": {
+        "$ref": "#/$defs/Group"
+      },
+      "maxItems": 30,
+      "minItems": 1,
+      "title": "Groups",
+      "type": "array"
+    },
+    "npcs": {
+      "items": {
+        "$ref": "#/$defs/NPC"
+      },
+      "maxItems": 12,
+      "title": "Npcs",
+      "type": "array"
+    },
+    "referenceTags": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Referencetags",
+      "type": "array"
+    }
+  },
+  "required": [
+    "title",
+    "zones",
+    "groups"
+  ],
+  "title": "Scene",
+  "type": "object"
+}

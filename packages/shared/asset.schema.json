@@ -1,0 +1,320 @@
+{
+  "$defs": {
+    "Point": {
+      "additionalProperties": false,
+      "properties": {
+        "x": {
+          "title": "X",
+          "type": "number"
+        },
+        "y": {
+          "title": "Y",
+          "type": "number"
+        }
+      },
+      "required": [
+        "x",
+        "y"
+      ],
+      "title": "Point",
+      "type": "object"
+    },
+    "Rect": {
+      "additionalProperties": false,
+      "properties": {
+        "width": {
+          "exclusiveMinimum": 0,
+          "maximum": 256,
+          "title": "Width",
+          "type": "number"
+        },
+        "height": {
+          "exclusiveMinimum": 0,
+          "maximum": 256,
+          "title": "Height",
+          "type": "number"
+        },
+        "x": {
+          "title": "X",
+          "type": "number"
+        },
+        "y": {
+          "title": "Y",
+          "type": "number"
+        }
+      },
+      "required": [
+        "width",
+        "height",
+        "x",
+        "y"
+      ],
+      "title": "Rect",
+      "type": "object"
+    },
+    "Size": {
+      "additionalProperties": false,
+      "properties": {
+        "width": {
+          "exclusiveMinimum": 0,
+          "maximum": 256,
+          "title": "Width",
+          "type": "number"
+        },
+        "height": {
+          "exclusiveMinimum": 0,
+          "maximum": 256,
+          "title": "Height",
+          "type": "number"
+        }
+      },
+      "required": [
+        "width",
+        "height"
+      ],
+      "title": "Size",
+      "type": "object"
+    },
+    "Socket": {
+      "additionalProperties": false,
+      "properties": {
+        "x": {
+          "title": "X",
+          "type": "number"
+        },
+        "y": {
+          "title": "Y",
+          "type": "number"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "categories": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Categories",
+          "type": "array"
+        },
+        "visualLift": {
+          "default": 0,
+          "maximum": 8,
+          "minimum": 0,
+          "title": "Visuallift",
+          "type": "number"
+        }
+      },
+      "required": [
+        "x",
+        "y",
+        "id",
+        "categories"
+      ],
+      "title": "Socket",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schemaversion",
+      "type": "string"
+    },
+    "version": {
+      "default": 1,
+      "minimum": 1,
+      "title": "Version",
+      "type": "integer"
+    },
+    "id": {
+      "pattern": "^[a-z][a-z0-9_]{0,63}$",
+      "title": "Id",
+      "type": "string"
+    },
+    "name": {
+      "maxLength": 100,
+      "minLength": 1,
+      "title": "Name",
+      "type": "string"
+    },
+    "category": {
+      "title": "Category",
+      "type": "string"
+    },
+    "tags": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Tags",
+      "type": "array"
+    },
+    "purpose": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Purpose",
+      "type": "array"
+    },
+    "sprite": {
+      "title": "Sprite",
+      "type": "string"
+    },
+    "styleId": {
+      "default": "hearth_pixel",
+      "title": "Styleid",
+      "type": "string"
+    },
+    "pixelDensity": {
+      "const": 16,
+      "default": 16,
+      "title": "Pixeldensity",
+      "type": "integer"
+    },
+    "spriteSize": {
+      "$ref": "#/$defs/Size"
+    },
+    "footprint": {
+      "$ref": "#/$defs/Size"
+    },
+    "collision": {
+      "$ref": "#/$defs/Rect"
+    },
+    "visualBounds": {
+      "$ref": "#/$defs/Rect"
+    },
+    "anchor": {
+      "$ref": "#/$defs/Point"
+    },
+    "supportedOrientations": {
+      "items": {
+        "enum": [
+          "north",
+          "south",
+          "east",
+          "west"
+        ],
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Supportedorientations",
+      "type": "array"
+    },
+    "orientationSprites": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Orientationsprites",
+      "type": "object"
+    },
+    "placementBehaviors": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Placementbehaviors",
+      "type": "array"
+    },
+    "requiresWall": {
+      "default": false,
+      "title": "Requireswall",
+      "type": "boolean"
+    },
+    "requiresSurface": {
+      "default": false,
+      "title": "Requiressurface",
+      "type": "boolean"
+    },
+    "surfaceSockets": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Socket"
+      },
+      "title": "Surfacesockets",
+      "type": "array"
+    },
+    "wallSockets": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Socket"
+      },
+      "title": "Wallsockets",
+      "type": "array"
+    },
+    "interactionPoints": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Point"
+      },
+      "title": "Interactionpoints",
+      "type": "array"
+    },
+    "interactionClearance": {
+      "default": 0,
+      "maximum": 3,
+      "minimum": 0,
+      "title": "Interactionclearance",
+      "type": "number"
+    },
+    "preferredZones": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Preferredzones",
+      "type": "array"
+    },
+    "compatibleCategories": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Compatiblecategories",
+      "type": "array"
+    },
+    "renderLayer": {
+      "title": "Renderlayer",
+      "type": "string"
+    },
+    "depthOffset": {
+      "default": 0,
+      "title": "Depthoffset",
+      "type": "number"
+    },
+    "solid": {
+      "title": "Solid",
+      "type": "boolean"
+    },
+    "approved": {
+      "default": false,
+      "title": "Approved",
+      "type": "boolean"
+    },
+    "placeholder": {
+      "default": true,
+      "title": "Placeholder",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "category",
+    "tags",
+    "purpose",
+    "sprite",
+    "spriteSize",
+    "footprint",
+    "collision",
+    "visualBounds",
+    "anchor",
+    "supportedOrientations",
+    "orientationSprites",
+    "placementBehaviors",
+    "renderLayer",
+    "solid"
+  ],
+  "title": "Asset",
+  "type": "object"
+}

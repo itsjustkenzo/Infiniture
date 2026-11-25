@@ -1,0 +1,30 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "description": {
+      "maxLength": 4000,
+      "minLength": 1,
+      "title": "Description",
+      "type": "string"
+    },
+    "density": {
+      "default": 0.5,
+      "maximum": 1,
+      "minimum": 0.1,
+      "title": "Density",
+      "type": "number"
+    },
+    "decorationDensity": {
+      "default": 0.5,
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Decorationdensity",
+      "type": "number"
+    }
+  },
+  "required": [
+    "description"
+  ],
+  "title": "PlanRequest",
+  "type": "object"
+}

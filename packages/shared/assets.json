@@ -1,0 +1,2327 @@
+[
+  {
+    "schemaVersion": "1.0",
+    "version": 1,
+    "id": "wood_floor",
+    "name": "Wood floor",
+    "category": "architecture",
+    "tags": [
+      "architecture",
+      "wood_floor"
+    ],
+    "purpose": [
+      "architecture"
+    ],
+    "sprite": "/assets/wood_floor.png",
+    "styleId": "hearth_pixel",
+    "pixelDensity": 16,
+    "spriteSize": {
+      "width": 16,
+      "height": 16
+    },
+    "footprint": {
+      "width": 1,
+      "height": 1
+    },
+    "collision": {
+      "x": 0,
+      "y": 0,
+      "width": 1,
+      "height": 1
+    },
+    "visualBounds": {
+      "x": 0,
+      "y": 0,
+      "width": 16,
+      "height": 16
+    },
+    "anchor": {
+      "x": 8.0,
+      "y": 16
+    },
+    "supportedOrientations": [
+      "south"
+    ],
+    "orientationSprites": {
+      "south": "/assets/wood_floor.png"
+    },
+    "placementBehaviors": [
+      "near_object",
+      "centered_within_zone"
+    ],
+    "requiresWall": false,
+    "requiresSurface": false,
+    "surfaceSockets": [],
+    "wallSockets": [],
+    "interactionPoints": [],
+    "interactionClearance": 0,
+    "preferredZones": [
+      "architecture"
+    ],
+    "compatibleCategories": [
+      "architecture"
+    ],
+    "renderLayer": "floor",
+    "depthOffset": 0,
+    "solid": false,
+    "approved": true,
+    "placeholder": true
+  },
+  {
+    "schemaVersion": "1.0",
+    "version": 1,
+    "id": "stone_floor",
+    "name": "Stone floor",
+    "category": "architecture",
+    "tags": [
+      "architecture",
+      "stone_floor"
+    ],
+    "purpose": [
+      "architecture"
+    ],
+    "sprite": "/assets/stone_floor.png",
+    "styleId": "hearth_pixel",
+    "pixelDensity": 16,
+    "spriteSize": {
+      "width": 16,
+      "height": 16
+    },
+    "footprint": {
+      "width": 1,
+      "height": 1
+    },
+    "collision": {
+      "x": 0,
+      "y": 0,
+      "width": 1,
+      "height": 1
+    },
+    "visualBounds": {
+      "x": 0,
+      "y": 0,
+      "width": 16,
+      "height": 16
+    },
+    "anchor": {
+      "x": 8.0,
+      "y": 16
+    },
+    "supportedOrientations": [
+      "south"
+    ],
+    "orientationSprites": {
+      "south": "/assets/stone_floor.png"
+    },
+    "placementBehaviors": [
+      "near_object",
+      "centered_within_zone"
+    ],
+    "requiresWall": false,
+    "requiresSurface": false,
+    "surfaceSockets": [],
+    "wallSockets": [],
+    "interactionPoints": [],
+    "interactionClearance": 0,
+    "preferredZones": [
+      "architecture"
+    ],
+    "compatibleCategories": [
+      "architecture"
+    ],
+    "renderLayer": "floor",
+    "depthOffset": 0,
+    "solid": false,
+    "approved": true,
+    "placeholder": true
+  },
+  {
+    "schemaVersion": "1.0",
+    "version": 1,
+    "id": "north_wall",
+    "name": "North wall",
+    "category": "architecture",
+    "tags": [
+      "architecture",
+      "north_wall"
+    ],
+    "purpose": [
+      "architecture"
+    ],
+    "sprite": "/assets/north_wall.png",
+    "styleId": "hearth_pixel",
+    "pixelDensity": 16,
+    "spriteSize": {
+      "width": 16,
+      "height": 24
+    },
+    "footprint": {
+      "width": 1,
+      "height": 1
+    },
+    "collision": {
+      "x": 0,
+      "y": 0,
+      "width": 1,
+      "height": 1
+    },
+    "visualBounds": {
+      "x": 0,
+      "y": 0,
+      "width": 16,
+      "height": 24
+    },
+    "anchor": {
+      "x": 8.0,
+      "y": 24
+    },
+    "supportedOrientations": [
+      "south"
+    ],
+    "orientationSprites": {
+      "south": "/assets/north_wall.png"
+    },
+    "placementBehaviors": [
+      "near_object",
+      "centered_within_zone"
+    ],
+    "requiresWall": false,
+    "requiresSurface": false,
+    "surfaceSockets": [],
+    "wallSockets": [],
+    "interactionPoints": [],
+    "interactionClearance": 0,
+    "preferredZones": [
+      "architecture"
+    ],
+    "compatibleCategories": [
+      "architecture"
+    ],
+    "renderLayer": "wall",
+    "depthOffset": 0,
+    "solid": false,
+    "approved": true,
+    "placeholder": true
+  },
+  {
+    "schemaVersion": "1.0",
+    "version": 1,
+    "id": "side_wall",
+    "name": "Side wall",
+    "category": "architecture",
+    "tags": [
+      "architecture",
+      "side_wall"
+    ],
+    "purpose": [
+      "architecture"
+    ],
+    "sprite": "/assets/side_wall.png",
+    "styleId": "hearth_pixel",
+    "pixelDensity": 16,
+    "spriteSize": {
+      "width": 16,
+      "height": 24
+    },
+    "footprint": {
+      "width": 1,
+      "height": 1
+    },
+    "collision": {
+      "x": 0,
+      "y": 0,
+      "width": 1,
+      "height": 1
+    },
+    "visualBounds": {
+      "x": 0,
+      "y": 0,
+      "width": 16,
+      "height": 24
+    },
+    "anchor": {
+      "x": 8.0,
+      "y": 24
+    },
+    "supportedOrientations": [
+      "south"
+    ],
+    "orientationSprites": {
+      "south": "/assets/side_wall.png"
+    },
+    "placementBehaviors": [
+      "near_object",
+      "centered_within_zone"
+    ],
+    "requiresWall": false,
+    "requiresSurface": false,
+    "surfaceSockets": [],
+    "wallSockets": [],
+    "interactionPoints": [],
+    "interactionClearance": 0,
+    "preferredZones": [
+      "architecture"
+    ],
+    "compatibleCategories": [
+      "architecture"
+    ],
+    "renderLayer": "wall",
+    "depthOffset": 0,
+    "solid": false,
+    "approved": true,
+    "placeholder": true
+  },
+  {
+    "schemaVersion": "1.0",
+    "version": 1,
+    "id": "door",
+    "name": "Door",
+    "category": "architecture",
+    "tags": [
+      "architecture",
+      "door"
+    ],
+    "purpose": [
+      "architecture"
+    ],
+    "sprite": "/assets/door.png",
+    "styleId": "hearth_pixel",
+    "pixelDensity": 16,
+    "spriteSize": {
+      "width": 32,
+      "height": 24
+    },
+    "footprint": {
+      "width": 2,
+      "height": 1
+    },
+    "collision": {
+      "x": 0,
+      "y": 0,
+      "width": 2,
+      "height": 1
+    },
+    "visualBounds": {
+      "x": 0,
+      "y": 0,
+      "width": 32,
+      "height": 24
+    },
+    "anchor": {
+      "x": 16.0,
+      "y": 24
+    },
+    "supportedOrientations": [
+      "south"
+    ],
+    "orientationSprites": {
+      "south": "/assets/door.png"
+    },
+    "placementBehaviors": [
+      "near_object",
+      "centered_within_zone"
+    ],
+    "requiresWall": false,
+    "requiresSurface": false,
+    "surfaceSockets": [],
+    "wallSockets": [],
+    "interactionPoints": [],
+    "interactionClearance": 0,
+    "preferredZones": [
+      "architecture"
+    ],
+    "compatibleCategories": [
+      "architecture"
+    ],
+    "renderLayer": "wall",
+    "depthOffset": 0,
+    "solid": false,
+    "approved": true,
+    "placeholder": true
+  },
+  {
+    "schemaVersion": "1.0",
+    "version": 1,
+    "id": "window",
+    "name": "Window",
+    "category": "wall_art",
+    "tags": [
+      "wall_art",
+      "window"
+    ],
+    "purpose": [
+      "wall_art"
+    ],
+    "sprite": "/assets/window.png",
+    "styleId": "hearth_pixel",
+    "pixelDensity": 16,
+    "spriteSize": {
+      "width": 32,
+      "height": 24
+    },
+    "footprint": {
+      "width": 2,
+      "height": 1
+    },
+    "collision": {
+      "x": 0,
+      "y": 0,
+      "width": 2,
+      "height": 1
+    },
+    "visualBounds": {
+      "x": 0,
+      "y": 0,
+      "width": 32,
+      "height": 24
+    },
+    "anchor": {
+      "x": 16.0,
+      "y": 24
+    },
+    "supportedOrientations": [
+      "south"
+    ],
+    "orientationSprites": {
+      "south": "/assets/window.png"
+    },
+    "placementBehaviors": [
+      "against_wall"
+    ],
+    "requiresWall": true,
+    "requiresSurface": false,
+    "surfaceSockets": [],
+    "wallSockets": [],
+    "interactionPoints": [],
+    "interactionClearance": 0,
+    "preferredZones": [
+      "wall_art"
+    ],
+    "compatibleCategories": [
+      "wall_art"
+    ],
+    "renderLayer": "wall_decoration",
+    "depthOffset": 0,
+    "solid": false,
+    "approved": true,
+    "placeholder": true
+  },
+  {
+    "schemaVersion": "1.0",
+    "version": 1,
+    "id": "round_table",
+    "name": "Round table",
+    "category": "table",
+    "tags": [
+      "table",
+      "round_table"
+    ],
+    "purpose": [
+      "table"
+    ],
+    "sprite": "/assets/round_table.png",
+    "styleId": "hearth_pixel",
+    "pixelDensity": 16,
+    "spriteSize": {
+      "width": 48,
+      "height": 40
+    },
+    "footprint": {
+      "width": 3,
+      "height": 2
+    },
+    "collision": {
+      "x": 0,
+      "y": 0,
+      "width": 3,
+      "height": 2
+    },
+    "visualBounds": {
+      "x": 0,
+      "y": 0,
+      "width": 48,
+      "height": 40
+    },
+    "anchor": {
+      "x": 24.0,
+      "y": 40
+    },
+    "supportedOrientations": [
+      "south"
+    ],
+    "orientationSprites": {
+      "south": "/assets/round_table.png"
+    },
+    "placementBehaviors": [
+      "near_object",
+      "centered_within_zone"
+    ],
+    "requiresWall": false,
+    "requiresSurface": false,
+    "surfaceSockets": [
+      {
+        "id": "top0",
+        "x": 0.5,
+        "y": 0.25,
+        "categories": [
+          "surface_detail"
+        ],
+        "visualLift": 0.5
+      },
+      {
+        "id": "top1",
+        "x": 2,
+        "y": 0.25,
+        "categories": [
+          "surface_detail"
+        ],
+        "visualLift": 0.5
+      }
+    ],
+    "wallSockets": [],
+    "interactionPoints": [
+      {
+        "x": 1.5,
+        "y": 2.8
+      }
+    ],
+    "interactionClearance": 0.25,
+    "preferredZones": [
+      "table"
+    ],
+    "compatibleCategories": [
+      "table"
+    ],
+    "renderLayer": "furniture",
+    "depthOffset": 0,
+    "solid": true,
+    "approved": true,
+    "placeholder": true
+  },
+  {
+    "schemaVersion": "1.0",
+    "version": 1,
+    "id": "table",
+    "name": "Oak table",
+    "category": "table",
+    "tags": [
+      "table",
+      "table"
+    ],
+    "purpose": [
+      "table"
+    ],
+    "sprite": "/assets/table.png",
+    "styleId": "hearth_pixel",
+    "pixelDensity": 16,
+    "spriteSize": {
+      "width": 48,
+      "height": 40
+    },
+    "footprint": {
+      "width": 3,
+      "height": 2
+    },
+    "collision": {
+      "x": 0,
+      "y": 0,
+      "width": 3,
+      "height": 2
+    },
+    "visualBounds": {
+      "x": 0,
+      "y": 0,
+      "width": 48,
+      "height": 40
+    },
+    "anchor": {
+      "x": 24.0,
+      "y": 40
+    },
+    "supportedOrientations": [
+      "south"
+    ],
+    "orientationSprites": {
+      "south": "/assets/table.png"
+    },
+    "placementBehaviors": [
+      "near_object",
+      "centered_within_zone"
+    ],
+    "requiresWall": false,
+    "requiresSurface": false,
+    "surfaceSockets": [
+      {
+        "id": "top0",
+        "x": 0.5,
+        "y": 0.25,
+        "categories": [
+          "surface_detail"
+        ],
+        "visualLift": 0.5
+      },
+      {
+        "id": "top1",
+        "x": 2,
+        "y": 0.25,
+        "categories": [
+          "surface_detail"
+        ],
+        "visualLift": 0.5
+      }
+    ],
+    "wallSockets": [],
+    "interactionPoints": [
+      {
+        "x": 1.5,
+        "y": 2.8
+      }
+    ],
+    "interactionClearance": 0.25,
+    "preferredZones": [
+      "table"
+    ],
+    "compatibleCategories": [
+      "table"
+    ],
+    "renderLayer": "furniture",
+    "depthOffset": 0,
+    "solid": true,
+    "approved": true,
+    "placeholder": true
+  },
+  {
+    "schemaVersion": "1.0",
+    "version": 1,
+    "id": "chair",
+    "name": "Chair",
+    "category": "seating",
+    "tags": [
+      "seating",
+      "chair"
+    ],
+    "purpose": [
+      "seating"
+    ],
+    "sprite": "/assets/chair.png",
+    "styleId": "hearth_pixel",
+    "pixelDensity": 16,
+    "spriteSize": {
+      "width": 16,
+      "height": 24
+    },
+    "footprint": {
+      "width": 1,
+      "height": 1
+    },
+    "collision": {
+      "x": 0,
+      "y": 0,
+      "width": 1,
+      "height": 1
+    },
+    "visualBounds": {
+      "x": 0,
+      "y": 0,
+      "width": 16,
+      "height": 24
+    },
+    "anchor": {
+      "x": 8.0,
+      "y": 24
+    },
+    "supportedOrientations": [
+      "south",
+      "north",
+      "east",
+      "west"
+    ],
+    "orientationSprites": {
+      "south": "/assets/chair.png",
+      "north": "/assets/chair_north.png",
+      "east": "/assets/chair_east.png",
+      "west": "/assets/chair_west.png"
+    },
+    "placementBehaviors": [
+      "near_object",
+      "centered_within_zone"
+    ],
+    "requiresWall": false,
+    "requiresSurface": false,
+    "surfaceSockets": [],
+    "wallSockets": [],
+    "interactionPoints": [],
+    "interactionClearance": 0,
+    "preferredZones": [
+      "seating"
+    ],
+    "compatibleCategories": [
+      "seating"
+    ],
+    "renderLayer": "furniture",
+    "depthOffset": 0,
+    "solid": true,
+    "approved": true,
+    "placeholder": true
+  },
+  {
+    "schemaVersion": "1.0",
+    "version": 1,
+    "id": "stool",
+    "name": "Stool",
+    "category": "seating",
+    "tags": [
+      "seating",
+      "stool"
+    ],
+    "purpose": [
+      "seating"
+    ],
+    "sprite": "/assets/stool.png",
+    "styleId": "hearth_pixel",
+    "pixelDensity": 16,
+    "spriteSize": {
+      "width": 16,
+      "height": 24
+    },
+    "footprint": {
+      "width": 1,
+      "height": 1
+    },
+    "collision": {
+      "x": 0,
+      "y": 0,
+      "width": 1,
+      "height": 1
+    },
+    "visualBounds": {
+      "x": 0,
+      "y": 0,
+      "width": 16,
+      "height": 24
+    },
+    "anchor": {
+      "x": 8.0,
+      "y": 24
+    },
+    "supportedOrientations": [
+      "south",
+      "north",
+      "east",
+      "west"
+    ],
+    "orientationSprites": {
+      "south": "/assets/stool.png",
+      "north": "/assets/stool.png",
+      "east": "/assets/stool.png",
+      "west": "/assets/stool.png"
+    },
+    "placementBehaviors": [
+      "near_object",
+      "centered_within_zone"
+    ],
+    "requiresWall": false,
+    "requiresSurface": false,
+    "surfaceSockets": [],
+    "wallSockets": [],
+    "interactionPoints": [],
+    "interactionClearance": 0,
+    "preferredZones": [
+      "seating"
+    ],
+    "compatibleCategories": [
+      "seating"
+    ],
+    "renderLayer": "furniture",
+    "depthOffset": 0,
+    "solid": true,
+    "approved": true,
+    "placeholder": true
+  },
+  {
+    "schemaVersion": "1.0",
+    "version": 1,
+    "id": "counter",
+    "name": "Counter",
+    "category": "counter",
+    "tags": [
+      "counter",
+      "counter"
+    ],
+    "purpose": [
+      "counter"
+    ],
+    "sprite": "/assets/counter.png",
+    "styleId": "hearth_pixel",
+    "pixelDensity": 16,
+    "spriteSize": {
+      "width": 64,
+      "height": 24
+    },
+    "footprint": {
+      "width": 4,
+      "height": 1
+    },
+    "collision": {
+      "x": 0,
+      "y": 0,
+      "width": 4,
+      "height": 1
+    },
+    "visualBounds": {
+      "x": 0,
+      "y": 0,
+      "width": 64,
+      "height": 24
+    },
+    "anchor": {
+      "x": 32.0,
+      "y": 24
+    },
+    "supportedOrientations": [
+      "south"
+    ],
+    "orientationSprites": {
+      "south": "/assets/counter.png"
+    },
+    "placementBehaviors": [
+      "near_object",
+      "centered_within_zone"
+    ],
+    "requiresWall": false,
+    "requiresSurface": false,
+    "surfaceSockets": [
+      {
+        "id": "top0",
+        "x": 0.5,
+        "y": 0.25,
+        "categories": [
+          "surface_detail"
+        ],
+        "visualLift": 0.5
+      },
+      {
+        "id": "top1",
+        "x": 3,
+        "y": 0.25,
+        "categories": [
+          "surface_detail"
+        ],
+        "visualLift": 0.5
+      }
+    ],
+    "wallSockets": [],
+    "interactionPoints": [
+      {
+        "x": 2.0,
+        "y": 1.8
+      }
+    ],
+    "interactionClearance": 0.25,
+    "preferredZones": [
+      "counter"
+    ],
+    "compatibleCategories": [
+      "counter"
+    ],
+    "renderLayer": "furniture",
+    "depthOffset": 0,
+    "solid": true,
+    "approved": true,
+    "placeholder": true
+  },
+  {
+    "schemaVersion": "1.0",
+    "version": 1,
+    "id": "bookshelf",
+    "name": "Bookshelf",
+    "category": "storage",
+    "tags": [
+      "storage",
+      "bookshelf"
+    ],
+    "purpose": [
+      "storage"
+    ],
+    "sprite": "/assets/bookshelf.png",
+    "styleId": "hearth_pixel",
+    "pixelDensity": 16,
+    "spriteSize": {
+      "width": 48,
+      "height": 40
+    },
+    "footprint": {
+      "width": 3,
+      "height": 1
+    },
+    "collision": {
+      "x": 0,
+      "y": 0,
+      "width": 3,
+      "height": 1
+    },
+    "visualBounds": {
+      "x": 0,
+      "y": 0,
+      "width": 48,
+      "height": 40
+    },
+    "anchor": {
+      "x": 24.0,
+      "y": 40
+    },
+    "supportedOrientations": [
+      "south"
+    ],
+    "orientationSprites": {
+      "south": "/assets/bookshelf.png"
+    },
+    "placementBehaviors": [
+      "against_wall"
+    ],
+    "requiresWall": true,
+    "requiresSurface": false,
+    "surfaceSockets": [],
+    "wallSockets": [],
+    "interactionPoints": [
+      {
+        "x": 1.5,
+        "y": 1.8
+      }
+    ],
+    "interactionClearance": 0.25,
+    "preferredZones": [
+      "storage"
+    ],
+    "compatibleCategories": [
+      "storage"
+    ],
+    "renderLayer": "furniture",
+    "depthOffset": 0,
+    "solid": true,
+    "approved": true,
+    "placeholder": true
+  },
+  {
+    "schemaVersion": "1.0",
+    "version": 1,
+    "id": "cabinet",
+    "name": "Cabinet",
+    "category": "storage",
+    "tags": [
+      "storage",
+      "cabinet"
+    ],
+    "purpose": [
+      "storage"
+    ],
+    "sprite": "/assets/cabinet.png",
+    "styleId": "hearth_pixel",
+    "pixelDensity": 16,
+    "spriteSize": {
+      "width": 32,
+      "height": 40
+    },
+    "footprint": {
+      "width": 2,
+      "height": 1
+    },
+    "collision": {
+      "x": 0,
+      "y": 0,
+      "width": 2,
+      "height": 1
+    },
+    "visualBounds": {
+      "x": 0,
+      "y": 0,
+      "width": 32,
+      "height": 40
+    },
+    "anchor": {
+      "x": 16.0,
+      "y": 40
+    },
+    "supportedOrientations": [
+      "south"
+    ],
+    "orientationSprites": {
+      "south": "/assets/cabinet.png"
+    },
+    "placementBehaviors": [
+      "against_wall"
+    ],
+    "requiresWall": true,
+    "requiresSurface": false,
+    "surfaceSockets": [],
+    "wallSockets": [],
+    "interactionPoints": [
+      {
+        "x": 1.0,
+        "y": 1.8
+      }
+    ],
+    "interactionClearance": 0.25,
+    "preferredZones": [
+      "storage"
+    ],
+    "compatibleCategories": [
+      "storage"
+    ],
+    "renderLayer": "furniture",
+    "depthOffset": 0,
+    "solid": true,
+    "approved": true,
+    "placeholder": true
+  },
+  {
+    "schemaVersion": "1.0",
+    "version": 1,
+    "id": "bed",
+    "name": "Bed",
+    "category": "bed",
+    "tags": [
+      "bed",
+      "bed"
+    ],
+    "purpose": [
+      "bed"
+    ],
+    "sprite": "/assets/bed.png",
+    "styleId": "hearth_pixel",
+    "pixelDensity": 16,
+    "spriteSize": {
+      "width": 32,
+      "height": 56
+    },
+    "footprint": {
+      "width": 2,
+      "height": 3
+    },
+    "collision": {
+      "x": 0,
+      "y": 0,
+      "width": 2,
+      "height": 3
+    },
+    "visualBounds": {
+      "x": 0,
+      "y": 0,
+      "width": 32,
+      "height": 56
+    },
+    "anchor": {
+      "x": 16.0,
+      "y": 56
+    },
+    "supportedOrientations": [
+      "south"
+    ],
+    "orientationSprites": {
+      "south": "/assets/bed.png"
+    },
+    "placementBehaviors": [
+      "near_object",
+      "centered_within_zone"
+    ],
+    "requiresWall": false,
+    "requiresSurface": false,
+    "surfaceSockets": [],
+    "wallSockets": [],
+    "interactionPoints": [
+      {
+        "x": 1.0,
+        "y": 3.8
+      }
+    ],
+    "interactionClearance": 0.25,
+    "preferredZones": [
+      "bed"
+    ],
+    "compatibleCategories": [
+      "bed"
+    ],
+    "renderLayer": "furniture",
+    "depthOffset": 0,
+    "solid": true,
+    "approved": true,
+    "placeholder": true
+  },
+  {
+    "schemaVersion": "1.0",
+    "version": 1,
+    "id": "desk",
+    "name": "Desk",
+    "category": "table",
+    "tags": [
+      "table",
+      "desk"
+    ],
+    "purpose": [
+      "table"
+    ],
+    "sprite": "/assets/desk.png",
+    "styleId": "hearth_pixel",
+    "pixelDensity": 16,
+    "spriteSize": {
+      "width": 48,
+      "height": 24
+    },
+    "footprint": {
+      "width": 3,
+      "height": 1
+    },
+    "collision": {
+      "x": 0,
+      "y": 0,
+      "width": 3,
+      "height": 1
+    },
+    "visualBounds": {
+      "x": 0,
+      "y": 0,
+      "width": 48,
+      "height": 24
+    },
+    "anchor": {
+      "x": 24.0,
+      "y": 24
+    },
+    "supportedOrientations": [
+      "south"
+    ],
+    "orientationSprites": {
+      "south": "/assets/desk.png"
+    },
+    "placementBehaviors": [
+      "near_object",
+      "centered_within_zone"
+    ],
+    "requiresWall": false,
+    "requiresSurface": false,
+    "surfaceSockets": [
+      {
+        "id": "top0",
+        "x": 0.5,
+        "y": 0.25,
+        "categories": [
+          "surface_detail"
+        ],
+        "visualLift": 0.5
+      },
+      {
+        "id": "top1",
+        "x": 2,
+        "y": 0.25,
+        "categories": [
+          "surface_detail"
+        ],
+        "visualLift": 0.5
+      }
+    ],
+    "wallSockets": [],
+    "interactionPoints": [
+      {
+        "x": 1.5,
+        "y": 1.8
+      }
+    ],
+    "interactionClearance": 0.25,
+    "preferredZones": [
+      "table"
+    ],
+    "compatibleCategories": [
+      "table"
+    ],
+    "renderLayer": "furniture",
+    "depthOffset": 0,
+    "solid": true,
+    "approved": true,
+    "placeholder": true
+  },
+  {
+    "schemaVersion": "1.0",
+    "version": 1,
+    "id": "bench",
+    "name": "Bench",
+    "category": "seating",
+    "tags": [
+      "seating",
+      "bench"
+    ],
+    "purpose": [
+      "seating"
+    ],
+    "sprite": "/assets/bench.png",
+    "styleId": "hearth_pixel",
+    "pixelDensity": 16,
+    "spriteSize": {
+      "width": 48,
+      "height": 24
+    },
+    "footprint": {
+      "width": 3,
+      "height": 1
+    },
+    "collision": {
+      "x": 0,
+      "y": 0,
+      "width": 3,
+      "height": 1
+    },
+    "visualBounds": {
+      "x": 0,
+      "y": 0,
+      "width": 48,
+      "height": 24
+    },
+    "anchor": {
+      "x": 24.0,
+      "y": 24
+    },
+    "supportedOrientations": [
+      "south"
+    ],
+    "orientationSprites": {
+      "south": "/assets/bench.png"
+    },
+    "placementBehaviors": [
+      "near_object",
+      "centered_within_zone"
+    ],
+    "requiresWall": false,
+    "requiresSurface": false,
+    "surfaceSockets": [],
+    "wallSockets": [],
+    "interactionPoints": [],
+    "interactionClearance": 0,
+    "preferredZones": [
+      "seating"
+    ],
+    "compatibleCategories": [
+      "seating"
+    ],
+    "renderLayer": "furniture",
+    "depthOffset": 0,
+    "solid": true,
+    "approved": true,
+    "placeholder": true
+  },
+  {
+    "schemaVersion": "1.0",
+    "version": 1,
+    "id": "barrel",
+    "name": "Barrel",
+    "category": "storage",
+    "tags": [
+      "storage",
+      "barrel"
+    ],
+    "purpose": [
+      "storage"
+    ],
+    "sprite": "/assets/barrel.png",
+    "styleId": "hearth_pixel",
+    "pixelDensity": 16,
+    "spriteSize": {
+      "width": 16,
+      "height": 24
+    },
+    "footprint": {
+      "width": 1,
+      "height": 1
+    },
+    "collision": {
+      "x": 0,
+      "y": 0,
+      "width": 1,
+      "height": 1
+    },
+    "visualBounds": {
+      "x": 0,
+      "y": 0,
+      "width": 16,
+      "height": 24
+    },
+    "anchor": {
+      "x": 8.0,
+      "y": 24
+    },
+    "supportedOrientations": [
+      "south"
+    ],
+    "orientationSprites": {
+      "south": "/assets/barrel.png"
+    },
+    "placementBehaviors": [
+      "near_object",
+      "centered_within_zone"
+    ],
+    "requiresWall": false,
+    "requiresSurface": false,
+    "surfaceSockets": [],
+    "wallSockets": [],
+    "interactionPoints": [
+      {
+        "x": 0.5,
+        "y": 1.8
+      }
+    ],
+    "interactionClearance": 0.25,
+    "preferredZones": [
+      "storage"
+    ],
+    "compatibleCategories": [
+      "storage"
+    ],
+    "renderLayer": "furniture",
+    "depthOffset": 0,
+    "solid": true,
+    "approved": true,
+    "placeholder": true
+  },
+  {
+    "schemaVersion": "1.0",
+    "version": 1,
+    "id": "crate",
+    "name": "Crate",
+    "category": "storage",
+    "tags": [
+      "storage",
+      "crate"
+    ],
+    "purpose": [
+      "storage"
+    ],
+    "sprite": "/assets/crate.png",
+    "styleId": "hearth_pixel",
+    "pixelDensity": 16,
+    "spriteSize": {
+      "width": 16,
+      "height": 24
+    },
+    "footprint": {
+      "width": 1,
+      "height": 1
+    },
+    "collision": {
+      "x": 0,
+      "y": 0,
+      "width": 1,
+      "height": 1
+    },
+    "visualBounds": {
+      "x": 0,
+      "y": 0,
+      "width": 16,
+      "height": 24
+    },
+    "anchor": {
+      "x": 8.0,
+      "y": 24
+    },
+    "supportedOrientations": [
+      "south"
+    ],
+    "orientationSprites": {
+      "south": "/assets/crate.png"
+    },
+    "placementBehaviors": [
+      "near_object",
+      "centered_within_zone"
+    ],
+    "requiresWall": false,
+    "requiresSurface": false,
+    "surfaceSockets": [],
+    "wallSockets": [],
+    "interactionPoints": [
+      {
+        "x": 0.5,
+        "y": 1.8
+      }
+    ],
+    "interactionClearance": 0.25,
+    "preferredZones": [
+      "storage"
+    ],
+    "compatibleCategories": [
+      "storage"
+    ],
+    "renderLayer": "furniture",
+    "depthOffset": 0,
+    "solid": true,
+    "approved": true,
+    "placeholder": true
+  },
+  {
+    "schemaVersion": "1.0",
+    "version": 1,
+    "id": "chest",
+    "name": "Chest",
+    "category": "storage",
+    "tags": [
+      "storage",
+      "chest"
+    ],
+    "purpose": [
+      "storage"
+    ],
+    "sprite": "/assets/chest.png",
+    "styleId": "hearth_pixel",
+    "pixelDensity": 16,
+    "spriteSize": {
+      "width": 32,
+      "height": 24
+    },
+    "footprint": {
+      "width": 2,
+      "height": 1
+    },
+    "collision": {
+      "x": 0,
+      "y": 0,
+      "width": 2,
+      "height": 1
+    },
+    "visualBounds": {
+      "x": 0,
+      "y": 0,
+      "width": 32,
+      "height": 24
+    },
+    "anchor": {
+      "x": 16.0,
+      "y": 24
+    },
+    "supportedOrientations": [
+      "south"
+    ],
+    "orientationSprites": {
+      "south": "/assets/chest.png"
+    },
+    "placementBehaviors": [
+      "near_object",
+      "centered_within_zone"
+    ],
+    "requiresWall": false,
+    "requiresSurface": false,
+    "surfaceSockets": [],
+    "wallSockets": [],
+    "interactionPoints": [
+      {
+        "x": 1.0,
+        "y": 1.8
+      }
+    ],
+    "interactionClearance": 0.25,
+    "preferredZones": [
+      "storage"
+    ],
+    "compatibleCategories": [
+      "storage"
+    ],
+    "renderLayer": "furniture",
+    "depthOffset": 0,
+    "solid": true,
+    "approved": true,
+    "placeholder": true
+  },
+  {
+    "schemaVersion": "1.0",
+    "version": 1,
+    "id": "shelf",
+    "name": "Storage shelf",
+    "category": "storage",
+    "tags": [
+      "storage",
+      "shelf"
+    ],
+    "purpose": [
+      "storage"
+    ],
+    "sprite": "/assets/shelf.png",
+    "styleId": "hearth_pixel",
+    "pixelDensity": 16,
+    "spriteSize": {
+      "width": 48,
+      "height": 40
+    },
+    "footprint": {
+      "width": 3,
+      "height": 1
+    },
+    "collision": {
+      "x": 0,
+      "y": 0,
+      "width": 3,
+      "height": 1
+    },
+    "visualBounds": {
+      "x": 0,
+      "y": 0,
+      "width": 48,
+      "height": 40
+    },
+    "anchor": {
+      "x": 24.0,
+      "y": 40
+    },
+    "supportedOrientations": [
+      "south"
+    ],
+    "orientationSprites": {
+      "south": "/assets/shelf.png"
+    },
+    "placementBehaviors": [
+      "against_wall"
+    ],
+    "requiresWall": true,
+    "requiresSurface": false,
+    "surfaceSockets": [],
+    "wallSockets": [],
+    "interactionPoints": [
+      {
+        "x": 1.5,
+        "y": 1.8
+      }
+    ],
+    "interactionClearance": 0.25,
+    "preferredZones": [
+      "storage"
+    ],
+    "compatibleCategories": [
+      "storage"
+    ],
+    "renderLayer": "furniture",
+    "depthOffset": 0,
+    "solid": true,
+    "approved": true,
+    "placeholder": true
+  },
+  {
+    "schemaVersion": "1.0",
+    "version": 1,
+    "id": "carpet",
+    "name": "Woven rug",
+    "category": "rug",
+    "tags": [
+      "rug",
+      "carpet"
+    ],
+    "purpose": [
+      "rug"
+    ],
+    "sprite": "/assets/carpet.png",
+    "styleId": "hearth_pixel",
+    "pixelDensity": 16,
+    "spriteSize": {
+      "width": 80,
+      "height": 64
+    },
+    "footprint": {
+      "width": 5,
+      "height": 4
+    },
+    "collision": {
+      "x": 0,
+      "y": 0,
+      "width": 5,
+      "height": 4
+    },
+    "visualBounds": {
+      "x": 0,
+      "y": 0,
+      "width": 80,
+      "height": 64
+    },
+    "anchor": {
+      "x": 40.0,
+      "y": 64
+    },
+    "supportedOrientations": [
+      "south"
+    ],
+    "orientationSprites": {
+      "south": "/assets/carpet.png"
+    },
+    "placementBehaviors": [
+      "under_object"
+    ],
+    "requiresWall": false,
+    "requiresSurface": false,
+    "surfaceSockets": [],
+    "wallSockets": [],
+    "interactionPoints": [],
+    "interactionClearance": 0,
+    "preferredZones": [
+      "rug"
+    ],
+    "compatibleCategories": [
+      "rug"
+    ],
+    "renderLayer": "floor_decoration",
+    "depthOffset": 0,
+    "solid": false,
+    "approved": true,
+    "placeholder": true
+  },
+  {
+    "schemaVersion": "1.0",
+    "version": 1,
+    "id": "candle",
+    "name": "Candle",
+    "category": "surface_detail",
+    "tags": [
+      "surface_detail",
+      "candle"
+    ],
+    "purpose": [
+      "surface_detail"
+    ],
+    "sprite": "/assets/candle.png",
+    "styleId": "hearth_pixel",
+    "pixelDensity": 16,
+    "spriteSize": {
+      "width": 8,
+      "height": 16
+    },
+    "footprint": {
+      "width": 0.5,
+      "height": 0.5
+    },
+    "collision": {
+      "x": 0,
+      "y": 0,
+      "width": 0.5,
+      "height": 0.5
+    },
+    "visualBounds": {
+      "x": 0,
+      "y": 0,
+      "width": 8,
+      "height": 16
+    },
+    "anchor": {
+      "x": 4.0,
+      "y": 16
+    },
+    "supportedOrientations": [
+      "south"
+    ],
+    "orientationSprites": {
+      "south": "/assets/candle.png"
+    },
+    "placementBehaviors": [
+      "attached_to_surface"
+    ],
+    "requiresWall": false,
+    "requiresSurface": true,
+    "surfaceSockets": [],
+    "wallSockets": [],
+    "interactionPoints": [],
+    "interactionClearance": 0,
+    "preferredZones": [
+      "surface_detail"
+    ],
+    "compatibleCategories": [
+      "surface_detail"
+    ],
+    "renderLayer": "surface_decoration",
+    "depthOffset": 0,
+    "solid": false,
+    "approved": true,
+    "placeholder": true
+  },
+  {
+    "schemaVersion": "1.0",
+    "version": 1,
+    "id": "plate",
+    "name": "Plate",
+    "category": "surface_detail",
+    "tags": [
+      "surface_detail",
+      "plate"
+    ],
+    "purpose": [
+      "surface_detail"
+    ],
+    "sprite": "/assets/plate.png",
+    "styleId": "hearth_pixel",
+    "pixelDensity": 16,
+    "spriteSize": {
+      "width": 8,
+      "height": 16
+    },
+    "footprint": {
+      "width": 0.5,
+      "height": 0.5
+    },
+    "collision": {
+      "x": 0,
+      "y": 0,
+      "width": 0.5,
+      "height": 0.5
+    },
+    "visualBounds": {
+      "x": 0,
+      "y": 0,
+      "width": 8,
+      "height": 16
+    },
+    "anchor": {
+      "x": 4.0,
+      "y": 16
+    },
+    "supportedOrientations": [
+      "south"
+    ],
+    "orientationSprites": {
+      "south": "/assets/plate.png"
+    },
+    "placementBehaviors": [
+      "attached_to_surface"
+    ],
+    "requiresWall": false,
+    "requiresSurface": true,
+    "surfaceSockets": [],
+    "wallSockets": [],
+    "interactionPoints": [],
+    "interactionClearance": 0,
+    "preferredZones": [
+      "surface_detail"
+    ],
+    "compatibleCategories": [
+      "surface_detail"
+    ],
+    "renderLayer": "surface_decoration",
+    "depthOffset": 0,
+    "solid": false,
+    "approved": true,
+    "placeholder": true
+  },
+  {
+    "schemaVersion": "1.0",
+    "version": 1,
+    "id": "mug",
+    "name": "Mug",
+    "category": "surface_detail",
+    "tags": [
+      "surface_detail",
+      "mug"
+    ],
+    "purpose": [
+      "surface_detail"
+    ],
+    "sprite": "/assets/mug.png",
+    "styleId": "hearth_pixel",
+    "pixelDensity": 16,
+    "spriteSize": {
+      "width": 8,
+      "height": 16
+    },
+    "footprint": {
+      "width": 0.5,
+      "height": 0.5
+    },
+    "collision": {
+      "x": 0,
+      "y": 0,
+      "width": 0.5,
+      "height": 0.5
+    },
+    "visualBounds": {
+      "x": 0,
+      "y": 0,
+      "width": 8,
+      "height": 16
+    },
+    "anchor": {
+      "x": 4.0,
+      "y": 16
+    },
+    "supportedOrientations": [
+      "south"
+    ],
+    "orientationSprites": {
+      "south": "/assets/mug.png"
+    },
+    "placementBehaviors": [
+      "attached_to_surface"
+    ],
+    "requiresWall": false,
+    "requiresSurface": true,
+    "surfaceSockets": [],
+    "wallSockets": [],
+    "interactionPoints": [],
+    "interactionClearance": 0,
+    "preferredZones": [
+      "surface_detail"
+    ],
+    "compatibleCategories": [
+      "surface_detail"
+    ],
+    "renderLayer": "surface_decoration",
+    "depthOffset": 0,
+    "solid": false,
+    "approved": true,
+    "placeholder": true
+  },
+  {
+    "schemaVersion": "1.0",
+    "version": 1,
+    "id": "plant",
+    "name": "Fern",
+    "category": "plant",
+    "tags": [
+      "plant",
+      "plant"
+    ],
+    "purpose": [
+      "plant"
+    ],
+    "sprite": "/assets/plant.png",
+    "styleId": "hearth_pixel",
+    "pixelDensity": 16,
+    "spriteSize": {
+      "width": 16,
+      "height": 24
+    },
+    "footprint": {
+      "width": 1,
+      "height": 1
+    },
+    "collision": {
+      "x": 0,
+      "y": 0,
+      "width": 1,
+      "height": 1
+    },
+    "visualBounds": {
+      "x": 0,
+      "y": 0,
+      "width": 16,
+      "height": 24
+    },
+    "anchor": {
+      "x": 8.0,
+      "y": 24
+    },
+    "supportedOrientations": [
+      "south"
+    ],
+    "orientationSprites": {
+      "south": "/assets/plant.png"
+    },
+    "placementBehaviors": [
+      "near_object",
+      "centered_within_zone"
+    ],
+    "requiresWall": false,
+    "requiresSurface": false,
+    "surfaceSockets": [],
+    "wallSockets": [],
+    "interactionPoints": [],
+    "interactionClearance": 0,
+    "preferredZones": [
+      "plant"
+    ],
+    "compatibleCategories": [
+      "plant"
+    ],
+    "renderLayer": "furniture",
+    "depthOffset": 0,
+    "solid": true,
+    "approved": true,
+    "placeholder": true
+  },
+  {
+    "schemaVersion": "1.0",
+    "version": 1,
+    "id": "painting",
+    "name": "Painting",
+    "category": "wall_art",
+    "tags": [
+      "wall_art",
+      "painting"
+    ],
+    "purpose": [
+      "wall_art"
+    ],
+    "sprite": "/assets/painting.png",
+    "styleId": "hearth_pixel",
+    "pixelDensity": 16,
+    "spriteSize": {
+      "width": 32,
+      "height": 24
+    },
+    "footprint": {
+      "width": 2,
+      "height": 1
+    },
+    "collision": {
+      "x": 0,
+      "y": 0,
+      "width": 2,
+      "height": 1
+    },
+    "visualBounds": {
+      "x": 0,
+      "y": 0,
+      "width": 32,
+      "height": 24
+    },
+    "anchor": {
+      "x": 16.0,
+      "y": 24
+    },
+    "supportedOrientations": [
+      "south"
+    ],
+    "orientationSprites": {
+      "south": "/assets/painting.png"
+    },
+    "placementBehaviors": [
+      "against_wall"
+    ],
+    "requiresWall": true,
+    "requiresSurface": false,
+    "surfaceSockets": [],
+    "wallSockets": [],
+    "interactionPoints": [],
+    "interactionClearance": 0,
+    "preferredZones": [
+      "wall_art"
+    ],
+    "compatibleCategories": [
+      "wall_art"
+    ],
+    "renderLayer": "wall_decoration",
+    "depthOffset": 0,
+    "solid": false,
+    "approved": true,
+    "placeholder": true
+  },
+  {
+    "schemaVersion": "1.0",
+    "version": 1,
+    "id": "wall_lamp",
+    "name": "Wall lantern",
+    "category": "wall_art",
+    "tags": [
+      "wall_art",
+      "wall_lamp"
+    ],
+    "purpose": [
+      "wall_art"
+    ],
+    "sprite": "/assets/wall_lamp.png",
+    "styleId": "hearth_pixel",
+    "pixelDensity": 16,
+    "spriteSize": {
+      "width": 16,
+      "height": 24
+    },
+    "footprint": {
+      "width": 1,
+      "height": 1
+    },
+    "collision": {
+      "x": 0,
+      "y": 0,
+      "width": 1,
+      "height": 1
+    },
+    "visualBounds": {
+      "x": 0,
+      "y": 0,
+      "width": 16,
+      "height": 24
+    },
+    "anchor": {
+      "x": 8.0,
+      "y": 24
+    },
+    "supportedOrientations": [
+      "south"
+    ],
+    "orientationSprites": {
+      "south": "/assets/wall_lamp.png"
+    },
+    "placementBehaviors": [
+      "against_wall"
+    ],
+    "requiresWall": true,
+    "requiresSurface": false,
+    "surfaceSockets": [],
+    "wallSockets": [],
+    "interactionPoints": [],
+    "interactionClearance": 0,
+    "preferredZones": [
+      "wall_art"
+    ],
+    "compatibleCategories": [
+      "wall_art"
+    ],
+    "renderLayer": "wall_decoration",
+    "depthOffset": 0,
+    "solid": false,
+    "approved": true,
+    "placeholder": true
+  },
+  {
+    "schemaVersion": "1.0",
+    "version": 1,
+    "id": "lamp",
+    "name": "Standing lamp",
+    "category": "light",
+    "tags": [
+      "light",
+      "lamp"
+    ],
+    "purpose": [
+      "light"
+    ],
+    "sprite": "/assets/lamp.png",
+    "styleId": "hearth_pixel",
+    "pixelDensity": 16,
+    "spriteSize": {
+      "width": 16,
+      "height": 24
+    },
+    "footprint": {
+      "width": 1,
+      "height": 1
+    },
+    "collision": {
+      "x": 0,
+      "y": 0,
+      "width": 1,
+      "height": 1
+    },
+    "visualBounds": {
+      "x": 0,
+      "y": 0,
+      "width": 16,
+      "height": 24
+    },
+    "anchor": {
+      "x": 8.0,
+      "y": 24
+    },
+    "supportedOrientations": [
+      "south"
+    ],
+    "orientationSprites": {
+      "south": "/assets/lamp.png"
+    },
+    "placementBehaviors": [
+      "near_object",
+      "centered_within_zone"
+    ],
+    "requiresWall": false,
+    "requiresSurface": false,
+    "surfaceSockets": [],
+    "wallSockets": [],
+    "interactionPoints": [],
+    "interactionClearance": 0,
+    "preferredZones": [
+      "light"
+    ],
+    "compatibleCategories": [
+      "light"
+    ],
+    "renderLayer": "furniture",
+    "depthOffset": 0,
+    "solid": true,
+    "approved": true,
+    "placeholder": true
+  },
+  {
+    "schemaVersion": "1.0",
+    "version": 1,
+    "id": "computer",
+    "name": "Computer",
+    "category": "surface_detail",
+    "tags": [
+      "surface_detail",
+      "computer"
+    ],
+    "purpose": [
+      "surface_detail"
+    ],
+    "sprite": "/assets/computer.png",
+    "styleId": "hearth_pixel",
+    "pixelDensity": 16,
+    "spriteSize": {
+      "width": 16,
+      "height": 16
+    },
+    "footprint": {
+      "width": 1,
+      "height": 0.5
+    },
+    "collision": {
+      "x": 0,
+      "y": 0,
+      "width": 1,
+      "height": 0.5
+    },
+    "visualBounds": {
+      "x": 0,
+      "y": 0,
+      "width": 16,
+      "height": 16
+    },
+    "anchor": {
+      "x": 8.0,
+      "y": 16
+    },
+    "supportedOrientations": [
+      "south"
+    ],
+    "orientationSprites": {
+      "south": "/assets/computer.png"
+    },
+    "placementBehaviors": [
+      "attached_to_surface"
+    ],
+    "requiresWall": false,
+    "requiresSurface": true,
+    "surfaceSockets": [],
+    "wallSockets": [],
+    "interactionPoints": [],
+    "interactionClearance": 0,
+    "preferredZones": [
+      "surface_detail"
+    ],
+    "compatibleCategories": [
+      "surface_detail"
+    ],
+    "renderLayer": "surface_decoration",
+    "depthOffset": 0,
+    "solid": false,
+    "approved": true,
+    "placeholder": true
+  },
+  {
+    "schemaVersion": "1.0",
+    "version": 1,
+    "id": "anvil",
+    "name": "Anvil",
+    "category": "equipment",
+    "tags": [
+      "equipment",
+      "anvil"
+    ],
+    "purpose": [
+      "equipment"
+    ],
+    "sprite": "/assets/anvil.png",
+    "styleId": "hearth_pixel",
+    "pixelDensity": 16,
+    "spriteSize": {
+      "width": 32,
+      "height": 24
+    },
+    "footprint": {
+      "width": 2,
+      "height": 1
+    },
+    "collision": {
+      "x": 0,
+      "y": 0,
+      "width": 2,
+      "height": 1
+    },
+    "visualBounds": {
+      "x": 0,
+      "y": 0,
+      "width": 32,
+      "height": 24
+    },
+    "anchor": {
+      "x": 16.0,
+      "y": 24
+    },
+    "supportedOrientations": [
+      "south"
+    ],
+    "orientationSprites": {
+      "south": "/assets/anvil.png"
+    },
+    "placementBehaviors": [
+      "near_object",
+      "centered_within_zone"
+    ],
+    "requiresWall": false,
+    "requiresSurface": false,
+    "surfaceSockets": [],
+    "wallSockets": [],
+    "interactionPoints": [
+      {
+        "x": 1.0,
+        "y": 1.8
+      }
+    ],
+    "interactionClearance": 0.25,
+    "preferredZones": [
+      "equipment"
+    ],
+    "compatibleCategories": [
+      "equipment"
+    ],
+    "renderLayer": "furniture",
+    "depthOffset": 0,
+    "solid": true,
+    "approved": true,
+    "placeholder": true
+  },
+  {
+    "schemaVersion": "1.0",
+    "version": 1,
+    "id": "player",
+    "name": "Explorer",
+    "category": "character",
+    "tags": [
+      "character",
+      "player"
+    ],
+    "purpose": [
+      "character"
+    ],
+    "sprite": "/assets/player.png",
+    "styleId": "hearth_pixel",
+    "pixelDensity": 16,
+    "spriteSize": {
+      "width": 16,
+      "height": 24
+    },
+    "footprint": {
+      "width": 1,
+      "height": 1
+    },
+    "collision": {
+      "x": 0,
+      "y": 0,
+      "width": 1,
+      "height": 1
+    },
+    "visualBounds": {
+      "x": 0,
+      "y": 0,
+      "width": 16,
+      "height": 24
+    },
+    "anchor": {
+      "x": 8.0,
+      "y": 24
+    },
+    "supportedOrientations": [
+      "south",
+      "north",
+      "east",
+      "west"
+    ],
+    "orientationSprites": {
+      "south": "/assets/player.png",
+      "north": "/assets/player.png",
+      "east": "/assets/player.png",
+      "west": "/assets/player.png"
+    },
+    "placementBehaviors": [
+      "near_object",
+      "centered_within_zone"
+    ],
+    "requiresWall": false,
+    "requiresSurface": false,
+    "surfaceSockets": [],
+    "wallSockets": [],
+    "interactionPoints": [],
+    "interactionClearance": 0,
+    "preferredZones": [
+      "character"
+    ],
+    "compatibleCategories": [
+      "character"
+    ],
+    "renderLayer": "player",
+    "depthOffset": 0,
+    "solid": false,
+    "approved": true,
+    "placeholder": true
+  },
+  {
+    "schemaVersion": "1.0",
+    "version": 1,
+    "id": "npc",
+    "name": "Caretaker",
+    "category": "character",
+    "tags": [
+      "character",
+      "npc"
+    ],
+    "purpose": [
+      "character"
+    ],
+    "sprite": "/assets/npc.png",
+    "styleId": "hearth_pixel",
+    "pixelDensity": 16,
+    "spriteSize": {
+      "width": 16,
+      "height": 24
+    },
+    "footprint": {
+      "width": 1,
+      "height": 1
+    },
+    "collision": {
+      "x": 0,
+      "y": 0,
+      "width": 1,
+      "height": 1
+    },
+    "visualBounds": {
+      "x": 0,
+      "y": 0,
+      "width": 16,
+      "height": 24
+    },
+    "anchor": {
+      "x": 8.0,
+      "y": 24
+    },
+    "supportedOrientations": [
+      "south",
+      "north",
+      "east",
+      "west"
+    ],
+    "orientationSprites": {
+      "south": "/assets/npc.png",
+      "north": "/assets/npc.png",
+      "east": "/assets/npc.png",
+      "west": "/assets/npc.png"
+    },
+    "placementBehaviors": [
+      "near_object",
+      "centered_within_zone"
+    ],
+    "requiresWall": false,
+    "requiresSurface": false,
+    "surfaceSockets": [],
+    "wallSockets": [],
+    "interactionPoints": [],
+    "interactionClearance": 0,
+    "preferredZones": [
+      "character"
+    ],
+    "compatibleCategories": [
+      "character"
+    ],
+    "renderLayer": "npc",
+    "depthOffset": 0,
+    "solid": false,
+    "approved": true,
+    "placeholder": true
+  }
+]
